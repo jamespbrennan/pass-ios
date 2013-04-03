@@ -14,5 +14,10 @@
 - (IBAction)loginClicked:(id)sender;
 - (IBAction)createAccountClicked:(id)sender;
 - (IBAction)backgroundClicked:(id)sender;
+- (void)doLogin:(NSString*)email withPassword:(NSString*)password;
+- (void)doRegistration:(NSString*)email withPassword:(NSString*)password;
+- (NSMutableURLRequest*)prepareLoginRequest:(NSString*)email withPassword:(NSString*)password;
+- (NSMutableURLRequest*)prepareRegistrationRequest:(NSString*)email withPassword:(NSString*)password;
+- (NSMutableURLRequest*)prepareRequest:(NSString*)email withPassword:(NSString*)password;
 
 @end
