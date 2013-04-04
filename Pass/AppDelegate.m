@@ -7,7 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import "IIViewDeckController.h"
 #import "LoginViewController.h"
+#import "ScanViewController.h"
+#import "NavigationViewController.h"
 
 @implementation AppDelegate
 
@@ -16,19 +19,26 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
-    NSString *token = [wrapper objectForKey:(id)CFBridgingRelease(kSecValueData)];
+    self.token = [wrapper objectForKey:(id)CFBridgingRelease(kSecValueData)];
     
-    if([token isEqualToString:@""]) {
-        // Override point for customization after application launch.
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            self.loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController_iPhone" bundle:nil];
-        } else {
-            self.loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController_iPad" bundle:nil];
-        }
-        self.window.rootViewController = self.loginViewController;
+    // Override point for customization after application launch.
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        self.loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController_iPhone" bundle:nil];
+        self.scanViewController = [[ScanViewController alloc] initWithNibName:@"ScanViewController_iPhone" bundle:nil];
+        self.navigationViewController = [[NavigationViewController alloc] initWithNibName:@"NavigationViewController_iPhone" bundle:nil];
+    } else {
+        self.loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController_iPad" bundle:nil];
+        self.scanViewController = [[ScanViewController alloc] initWithNibName:@"LoginViewController_iPad" bundle:nil];
+        self.navigationViewController = [[NavigationViewController alloc] initWithNibName:@"LoginViewController_iPad" bundle:nil];
     }
     
-    NSLog(@"%@",token);
+    IIViewDeckController* deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.scanViewController leftViewController:self.navigationViewController];
+    
+    if([self.token isEqualToString:@""]) {
+        self.window.rootViewController = self.loginViewController;
+    } else {
+        self.window.rootViewController = deckController;
+    }
     
     [self.window makeKeyAndVisible];
     
