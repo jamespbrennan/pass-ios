@@ -13,42 +13,23 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-//    self.window.backgroundColor = [UIColor whiteColor];
-    
-//    RootViewController *rootViewController = [[RootViewController alloc]init];
-//    
-//    navigationController = [[UINavigationController alloc]initWithRootViewController:rootViewController];
-//    
-//    self.window.backgroundColor = [UIColor whiteColor];
-//    
-//    [self.window addSubview:navigationController.view];
-//    [self.window makeKeyAndVisible];
-//    return YES;
-//    
-    
-//    self.loginViewController = [[UINavigationController alloc] initWithRootViewController:self.loginViewController];
-//    self.window.rootViewController = self.loginViewController;
-//    
-//    [self.window makeKeyAndVisible];
-    
-//    self.loginViewController = [[UIViewController alloc] init];
-//    self.window.rootViewController = self.loginViewController;
-//    [self.window addSubview:self.loginViewController.view];
-//    [self.window setRootViewController:self.loginViewController];
-    
-//    [self.window makeKeyAndVisible];
-    
-//    return YES;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController_iPhone" bundle:nil];
-    } else {
-        self.loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController_iPad" bundle:nil];
+    
+    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
+    NSString *token = [wrapper objectForKey:(id)CFBridgingRelease(kSecValueData)];
+    
+    if([token isEqualToString:@""]) {
+        // Override point for customization after application launch.
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            self.loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController_iPhone" bundle:nil];
+        } else {
+            self.loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController_iPad" bundle:nil];
+        }
+        self.window.rootViewController = self.loginViewController;
     }
-    self.window.rootViewController = self.loginViewController;
+    
+    NSLog(@"%@",token);
+    
     [self.window makeKeyAndVisible];
     
     return YES;

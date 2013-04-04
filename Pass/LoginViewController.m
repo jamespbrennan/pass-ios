@@ -7,7 +7,6 @@
 //
 
 #import "LoginViewController.h"
-#import "SBJson.h"
 
 @interface LoginViewController ()
 
@@ -74,8 +73,9 @@
         SBJsonParser *jsonParser = [SBJsonParser new];
         NSDictionary *jsonData = (NSDictionary *) [jsonParser objectWithString:responseData];
         NSLog(@"%@",jsonData);
-        NSInteger success = [(NSNumber *) [jsonData objectForKey:@"success"] integerValue];
-        NSLog(@"%d",success);
+        
+        NSString *token = (NSString *) [jsonData objectForKey:@"token"];
+        [self storeToken:token];
         
         NSLog(@"Login SUCCESS");
         [self alertStatus:@"Logged in Successfully." :@"Login Success!"];
@@ -157,11 +157,11 @@
 }
 
 - (NSMutableURLRequest*) prepareLoginRequest:(NSString*)email withPassword:(NSString*)password {
-    return [self prepareRequest:@"http://api.pass-server.localhost:3000/devices" withEmail:email withPassword:password];
+    return [self prepareRequest:@"http://api.pass-server.dev/devices" withEmail:email withPassword:password];
 }
 
 - (NSMutableURLRequest*) prepareRegistrationRequest:(NSString*)email withPassword:(NSString*)password {
-    return [self prepareRequest:@"http://api.pass-server.localhost:3000/users" withEmail:email withPassword:password];
+    return [self prepareRequest:@"http://api.pass-server.dev/users" withEmail:email withPassword:password];
 }
 
 - (NSMutableURLRequest*) prepareRequest:(NSString*)address withEmail:(NSString*)email withPassword:(NSString*)password {
@@ -202,6 +202,7 @@
 }
 
 - (void) storeToken:(NSString*)token {
-    
+    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
+    [wrapper setObject:token forKey:(id)CFBridgingRelease(kSecValueData)];
 }
 @end

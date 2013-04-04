@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		563CB8AE170D0095002CA54D /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 563CB8AD170D0095002CA54D /* KeychainItemWrapper.m */; };
+		563CB8AF170D1890002CA54D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563CB8AA170CFBF1002CA54D /* Security.framework */; };
 		56C2DA471703AF0E00400D6D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56C2DA461703AF0E00400D6D /* UIKit.framework */; };
 		56C2DA491703AF0E00400D6D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56C2DA481703AF0E00400D6D /* Foundation.framework */; };
 		56C2DA4B1703AF0E00400D6D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56C2DA4A1703AF0E00400D6D /* CoreGraphics.framework */; };
@@ -38,6 +40,9 @@
 
 /* Begin PBXFileReference section */
 		55084214002446D58CFED462 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		563CB8AA170CFBF1002CA54D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		563CB8AC170D0095002CA54D /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
+		563CB8AD170D0095002CA54D /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
 		56C2DA431703AF0E00400D6D /* Pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56C2DA461703AF0E00400D6D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		56C2DA481703AF0E00400D6D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -68,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				563CB8AF170D1890002CA54D /* Security.framework in Frameworks */,
 				56C2DA471703AF0E00400D6D /* UIKit.framework in Frameworks */,
 				56C2DA491703AF0E00400D6D /* Foundation.framework in Frameworks */,
 				56C2DA4B1703AF0E00400D6D /* CoreGraphics.framework in Frameworks */,
@@ -91,6 +97,7 @@
 		56C2DA3A1703AF0E00400D6D = {
 			isa = PBXGroup;
 			children = (
+				563CB8AA170CFBF1002CA54D /* Security.framework */,
 				56C2DA4C1703AF0E00400D6D /* Pass */,
 				56C2DA6A1703AF0E00400D6D /* PassTests */,
 				56C2DA451703AF0E00400D6D /* Frameworks */,
@@ -123,6 +130,8 @@
 		56C2DA4C1703AF0E00400D6D /* Pass */ = {
 			isa = PBXGroup;
 			children = (
+				563CB8AC170D0095002CA54D /* KeychainItemWrapper.h */,
+				563CB8AD170D0095002CA54D /* KeychainItemWrapper.m */,
 				56C2DA551703AF0E00400D6D /* AppDelegate.h */,
 				56C2DA561703AF0E00400D6D /* AppDelegate.m */,
 				56C2DA4D1703AF0E00400D6D /* Supporting Files */,
@@ -294,6 +303,7 @@
 				56C2DA531703AF0E00400D6D /* main.m in Sources */,
 				56C2DA571703AF0E00400D6D /* AppDelegate.m in Sources */,
 				56F91D4C1703F747000DC646 /* LoginViewController.m in Sources */,
+				563CB8AE170D0095002CA54D /* KeychainItemWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
