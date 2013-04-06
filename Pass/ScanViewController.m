@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 PassAuth. All rights reserved.
 //
 
-#import <AudioToolbox/AudioToolbox.h>
-#import <AVFoundation/AVFoundation.h>
 #import "ScanViewController.h"
 #import "IIViewDeckController.h"
 
@@ -57,6 +55,21 @@
     if (result) {
         // Vibrate
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        
+        NSArray *chunks = [result.text componentsSeparatedByString: @":"];
+
+        if(chunks.count < 3)
+        {
+            NSString *sessionId = chunks[0];
+            NSString *serviceId = chunks[1];
+            NSString *token = chunks[2];
+            NSString *keychainLookup = [NSString stringWithFormat:@"PrivateKey%@", serviceId];
+            
+            KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:keychainLookup accessGroup:nil];
+            NSString *privateKey = [wrapper objectForKey:(id)CFBridgingRelease(kSecValueData)];
+            
+            
+        }
     }
 }
 

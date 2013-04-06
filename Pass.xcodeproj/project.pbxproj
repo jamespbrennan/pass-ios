@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56347349170FF46C00FF8619 /* FSOpenSSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 56347348170FF46C00FF8619 /* FSOpenSSL.m */; };
 		563CB8AE170D0095002CA54D /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 563CB8AD170D0095002CA54D /* KeychainItemWrapper.m */; };
 		563CB8AF170D1890002CA54D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563CB8AA170CFBF1002CA54D /* Security.framework */; };
 		563CB8B3170D1D83002CA54D /* ScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563CB8B1170D1D83002CA54D /* ScanViewController.m */; };
@@ -49,6 +50,8 @@
 
 /* Begin PBXFileReference section */
 		55084214002446D58CFED462 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		56347347170FF46C00FF8619 /* FSOpenSSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSOpenSSL.h; path = "../../../OpenSSL-for-iPhone/OpenSSL-for-iOS/FSOpenSSL.h"; sourceTree = "<group>"; };
+		56347348170FF46C00FF8619 /* FSOpenSSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSOpenSSL.m; path = "../../../OpenSSL-for-iPhone/OpenSSL-for-iOS/FSOpenSSL.m"; sourceTree = "<group>"; };
 		563CB8AA170CFBF1002CA54D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		563CB8AC170D0095002CA54D /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
 		563CB8AD170D0095002CA54D /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
@@ -160,6 +163,8 @@
 		56C2DA4C1703AF0E00400D6D /* Pass */ = {
 			isa = PBXGroup;
 			children = (
+				56347347170FF46C00FF8619 /* FSOpenSSL.h */,
+				56347348170FF46C00FF8619 /* FSOpenSSL.m */,
 				563CB8B0170D1D83002CA54D /* ScanViewController.h */,
 				563CB8B1170D1D83002CA54D /* ScanViewController.m */,
 				563CB8B2170D1D83002CA54D /* ScanViewController_iPhone.xib */,
@@ -344,6 +349,7 @@
 				563CB8AE170D0095002CA54D /* KeychainItemWrapper.m in Sources */,
 				563CB8B3170D1D83002CA54D /* ScanViewController.m in Sources */,
 				563CB8B8170D1DFC002CA54D /* NavigationViewController.m in Sources */,
+				56347349170FF46C00FF8619 /* FSOpenSSL.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

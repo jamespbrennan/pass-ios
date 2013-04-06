@@ -7,6 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "KeychainItemWrapper.h"
+#import "IIViewDeckController.h"
+#import "LoginViewController.h"
+#import "ScanViewController.h"
+#import "NavigationViewController.h"
 
 @class LoginViewController;
 @class ScanViewController;

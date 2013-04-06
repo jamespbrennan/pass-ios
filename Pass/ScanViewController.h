@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 #import "ZXingObjC.h"
+#import "KeychainItemWrapper.h"
 
 @interface ScanViewController : UIViewController <ZXCaptureDelegate, UINavigationControllerDelegate>
 

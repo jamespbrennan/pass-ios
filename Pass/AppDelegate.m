@@ -7,10 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "IIViewDeckController.h"
-#import "LoginViewController.h"
-#import "ScanViewController.h"
-#import "NavigationViewController.h"
 
 @implementation AppDelegate
 
@@ -19,7 +15,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     // Check if they have logged in yet
-    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:@"Pass"];
+    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
     self.token = [wrapper objectForKey:(id)CFBridgingRelease(kSecValueData)];
     
     // Override point for customization after application launch.
