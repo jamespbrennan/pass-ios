@@ -18,7 +18,8 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
+    // Check if they have logged in yet
+    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:@"Pass"];
     self.token = [wrapper objectForKey:(id)CFBridgingRelease(kSecValueData)];
     
     // Override point for customization after application launch.
@@ -28,13 +29,13 @@
         self.navigationViewController = [[NavigationViewController alloc] initWithNibName:@"NavigationViewController_iPhone" bundle:nil];
     } else {
         self.loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController_iPad" bundle:nil];
-        self.scanViewController = [[ScanViewController alloc] initWithNibName:@"LoginViewController_iPad" bundle:nil];
-        self.navigationViewController = [[NavigationViewController alloc] initWithNibName:@"LoginViewController_iPad" bundle:nil];
+        self.scanViewController = [[ScanViewController alloc] initWithNibName:@"ScanViewController_iPad" bundle:nil];
+        self.navigationViewController = [[NavigationViewController alloc] initWithNibName:@"NavigationViewController_iPad" bundle:nil];
     }
     
     IIViewDeckController* deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.scanViewController leftViewController:self.navigationViewController];
     
-    if([self.token isEqualToString:@""]) {
+    if( ! [self.token isEqualToString:@""]) {
         self.window.rootViewController = self.loginViewController;
     } else {
         self.window.rootViewController = deckController;

@@ -15,9 +15,9 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) LoginViewController *loginViewController;
-@property (strong, nonatomic) ScanViewController *scanViewController;
-@property (strong, nonatomic) NavigationViewController *navigationViewController;
+@property (strong, nonatomic) UIViewController *loginViewController;
+@property (strong, nonatomic) UIViewController *scanViewController;
+@property (strong, nonatomic) UIViewController *navigationViewController;
 
 @property (strong, nonatomic) NSString *token;
 

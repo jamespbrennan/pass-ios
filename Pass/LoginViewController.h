@@ -11,8 +11,8 @@
 #import "KeychainItemWrapper.h"
 
 @interface LoginViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UITextField *txtEmail;
-@property (weak, nonatomic) IBOutlet UITextField *txtPassword;
+@property (unsafe_unretained, nonatomic) IBOutlet UITextField *txtEmail;
+@property (unsafe_unretained, nonatomic) IBOutlet UITextField *txtPassword;
 
 - (IBAction)loginClicked:(id)sender;
 - (IBAction)createAccountClicked:(id)sender;

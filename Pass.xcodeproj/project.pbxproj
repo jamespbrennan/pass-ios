@@ -13,6 +13,11 @@
 		563CB8B4170D1D83002CA54D /* ScanViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 563CB8B2170D1D83002CA54D /* ScanViewController_iPhone.xib */; };
 		563CB8B8170D1DFC002CA54D /* NavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563CB8B6170D1DFC002CA54D /* NavigationViewController.m */; };
 		563CB8B9170D1DFC002CA54D /* NavigationViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 563CB8B7170D1DFC002CA54D /* NavigationViewController_iPhone.xib */; };
+		563CB8BD170D25B9002CA54D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563CB8BC170D25B8002CA54D /* AVFoundation.framework */; };
+		563CB8BF170D25C5002CA54D /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563CB8BE170D25C5002CA54D /* CoreMedia.framework */; };
+		563CB8C1170D25CC002CA54D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563CB8C0170D25CC002CA54D /* CoreVideo.framework */; };
+		563CB8C3170D25D1002CA54D /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563CB8C2170D25D1002CA54D /* ImageIO.framework */; };
+		563CB8C5170D25D8002CA54D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563CB8C4170D25D8002CA54D /* QuartzCore.framework */; };
 		56C2DA471703AF0E00400D6D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56C2DA461703AF0E00400D6D /* UIKit.framework */; };
 		56C2DA491703AF0E00400D6D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56C2DA481703AF0E00400D6D /* Foundation.framework */; };
 		56C2DA4B1703AF0E00400D6D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56C2DA4A1703AF0E00400D6D /* CoreGraphics.framework */; };
@@ -53,6 +58,11 @@
 		563CB8B5170D1DFC002CA54D /* NavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationViewController.h; sourceTree = "<group>"; };
 		563CB8B6170D1DFC002CA54D /* NavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationViewController.m; sourceTree = "<group>"; };
 		563CB8B7170D1DFC002CA54D /* NavigationViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NavigationViewController_iPhone.xib; sourceTree = "<group>"; };
+		563CB8BC170D25B8002CA54D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		563CB8BE170D25C5002CA54D /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		563CB8C0170D25CC002CA54D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		563CB8C2170D25D1002CA54D /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		563CB8C4170D25D8002CA54D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		56C2DA431703AF0E00400D6D /* Pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56C2DA461703AF0E00400D6D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		56C2DA481703AF0E00400D6D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -83,10 +93,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				563CB8C5170D25D8002CA54D /* QuartzCore.framework in Frameworks */,
+				563CB8C3170D25D1002CA54D /* ImageIO.framework in Frameworks */,
+				563CB8C1170D25CC002CA54D /* CoreVideo.framework in Frameworks */,
+				563CB8BF170D25C5002CA54D /* CoreMedia.framework in Frameworks */,
+				56C2DA4B1703AF0E00400D6D /* CoreGraphics.framework in Frameworks */,
+				563CB8BD170D25B9002CA54D /* AVFoundation.framework in Frameworks */,
 				563CB8AF170D1890002CA54D /* Security.framework in Frameworks */,
 				56C2DA471703AF0E00400D6D /* UIKit.framework in Frameworks */,
 				56C2DA491703AF0E00400D6D /* Foundation.framework in Frameworks */,
-				56C2DA4B1703AF0E00400D6D /* CoreGraphics.framework in Frameworks */,
 				7E68FD77D3C949D1A0C6E810 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -107,6 +122,11 @@
 		56C2DA3A1703AF0E00400D6D = {
 			isa = PBXGroup;
 			children = (
+				563CB8C4170D25D8002CA54D /* QuartzCore.framework */,
+				563CB8C2170D25D1002CA54D /* ImageIO.framework */,
+				563CB8C0170D25CC002CA54D /* CoreVideo.framework */,
+				563CB8BE170D25C5002CA54D /* CoreMedia.framework */,
+				563CB8BC170D25B8002CA54D /* AVFoundation.framework */,
 				563CB8AA170CFBF1002CA54D /* Security.framework */,
 				56C2DA4C1703AF0E00400D6D /* Pass */,
 				56C2DA6A1703AF0E00400D6D /* PassTests */,
@@ -377,6 +397,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -390,8 +411,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -415,7 +437,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -430,6 +452,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pass/Pass-Prefix.pch";
 				INFOPLIST_FILE = "Pass/Pass-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -442,6 +465,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pass/Pass-Prefix.pch";
 				INFOPLIST_FILE = "Pass/Pass-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

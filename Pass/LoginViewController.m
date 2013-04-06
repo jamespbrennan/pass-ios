@@ -202,7 +202,7 @@
 }
 
 - (void) storeToken:(NSString*)token {
-    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
+    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:@"Pass"];
     [wrapper setObject:token forKey:(id)CFBridgingRelease(kSecValueData)];
 }
 @end

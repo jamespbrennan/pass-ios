@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZXingObjC.h"
 
-@interface ScanViewController : UIViewController
+@interface ScanViewController : UIViewController <ZXCaptureDelegate, UINavigationControllerDelegate>
+
+@property (nonatomic, retain) ZXCapture* capture;
 
 @end

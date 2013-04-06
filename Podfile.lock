@@ -1,7 +1,7 @@
 
 PODS:
 - SBJson (3.2)
-- ViewDeck (2.2.4)
+- ViewDeck (2.2.8)
 - ZXingObjC (2.1.0)
 
 DEPENDENCIES:
@@ -11,7 +11,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   SBJson: 4971016670e7b3fa04a36d4e72ab0fb1ad3a9f69
-  ViewDeck: 995e4b8ee14382163461fa0a4ad8b607e4882cc6
+  ViewDeck: 88a19cc246ece99d1aa9a883008e26c0d9068b5d
   ZXingObjC: 218a8a9a705ca914872f261d41f7db2822a11da2
 
 COCOAPODS: 0.16.4
