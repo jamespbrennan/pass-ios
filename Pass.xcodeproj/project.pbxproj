@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5608C4F11710E88C004474DD /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5608C4F01710E88C004474DD /* libcrypto.a */; };
+		5608C4F31710E896004474DD /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5608C4F21710E896004474DD /* libssl.a */; };
+		5608C4F91710E965004474DD /* JBRSA.m in Sources */ = {isa = PBXBuildFile; fileRef = 5608C4F81710E965004474DD /* JBRSA.m */; };
 		56347349170FF46C00FF8619 /* FSOpenSSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 56347348170FF46C00FF8619 /* FSOpenSSL.m */; };
 		563CB8AE170D0095002CA54D /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 563CB8AD170D0095002CA54D /* KeychainItemWrapper.m */; };
 		563CB8AF170D1890002CA54D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563CB8AA170CFBF1002CA54D /* Security.framework */; };
@@ -50,6 +53,10 @@
 
 /* Begin PBXFileReference section */
 		55084214002446D58CFED462 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5608C4F01710E88C004474DD /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
+		5608C4F21710E896004474DD /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = lib/libssl.a; sourceTree = "<group>"; };
+		5608C4F71710E965004474DD /* JBRSA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBRSA.h; sourceTree = "<group>"; };
+		5608C4F81710E965004474DD /* JBRSA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBRSA.m; sourceTree = "<group>"; };
 		56347347170FF46C00FF8619 /* FSOpenSSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSOpenSSL.h; path = "../../../OpenSSL-for-iPhone/OpenSSL-for-iOS/FSOpenSSL.h"; sourceTree = "<group>"; };
 		56347348170FF46C00FF8619 /* FSOpenSSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSOpenSSL.m; path = "../../../OpenSSL-for-iPhone/OpenSSL-for-iOS/FSOpenSSL.m"; sourceTree = "<group>"; };
 		563CB8AA170CFBF1002CA54D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -96,6 +103,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5608C4F31710E896004474DD /* libssl.a in Frameworks */,
+				5608C4F11710E88C004474DD /* libcrypto.a in Frameworks */,
 				563CB8C5170D25D8002CA54D /* QuartzCore.framework in Frameworks */,
 				563CB8C3170D25D1002CA54D /* ImageIO.framework in Frameworks */,
 				563CB8C1170D25CC002CA54D /* CoreVideo.framework in Frameworks */,
@@ -125,12 +134,6 @@
 		56C2DA3A1703AF0E00400D6D = {
 			isa = PBXGroup;
 			children = (
-				563CB8C4170D25D8002CA54D /* QuartzCore.framework */,
-				563CB8C2170D25D1002CA54D /* ImageIO.framework */,
-				563CB8C0170D25CC002CA54D /* CoreVideo.framework */,
-				563CB8BE170D25C5002CA54D /* CoreMedia.framework */,
-				563CB8BC170D25B8002CA54D /* AVFoundation.framework */,
-				563CB8AA170CFBF1002CA54D /* Security.framework */,
 				56C2DA4C1703AF0E00400D6D /* Pass */,
 				56C2DA6A1703AF0E00400D6D /* PassTests */,
 				56C2DA451703AF0E00400D6D /* Frameworks */,
@@ -151,6 +154,14 @@
 		56C2DA451703AF0E00400D6D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				563CB8C4170D25D8002CA54D /* QuartzCore.framework */,
+				563CB8C2170D25D1002CA54D /* ImageIO.framework */,
+				563CB8C0170D25CC002CA54D /* CoreVideo.framework */,
+				563CB8BE170D25C5002CA54D /* CoreMedia.framework */,
+				563CB8BC170D25B8002CA54D /* AVFoundation.framework */,
+				563CB8AA170CFBF1002CA54D /* Security.framework */,
+				5608C4F21710E896004474DD /* libssl.a */,
+				5608C4F01710E88C004474DD /* libcrypto.a */,
 				56C2DA461703AF0E00400D6D /* UIKit.framework */,
 				56C2DA481703AF0E00400D6D /* Foundation.framework */,
 				56C2DA4A1703AF0E00400D6D /* CoreGraphics.framework */,
@@ -179,6 +190,8 @@
 				56F91D491703F747000DC646 /* LoginViewController.h */,
 				56F91D4A1703F747000DC646 /* LoginViewController.m */,
 				56F91D4B1703F747000DC646 /* LoginViewController_iPhone.xib */,
+				5608C4F71710E965004474DD /* JBRSA.h */,
+				5608C4F81710E965004474DD /* JBRSA.m */,
 			);
 			path = Pass;
 			sourceTree = "<group>";
@@ -350,6 +363,7 @@
 				563CB8B3170D1D83002CA54D /* ScanViewController.m in Sources */,
 				563CB8B8170D1DFC002CA54D /* NavigationViewController.m in Sources */,
 				56347349170FF46C00FF8619 /* FSOpenSSL.m in Sources */,
+				5608C4F91710E965004474DD /* JBRSA.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,8 +471,35 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pass/Pass-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"include/**",
+					"${PODS_HEADERS_SEARCH_PATHS}",
+				);
 				INFOPLIST_FILE = "Pass/Pass-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/lib\"",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					AVFoundation,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					CoreMedia,
+					"-framework",
+					CoreVideo,
+					"-framework",
+					ImageIO,
+					"-framework",
+					QuartzCore,
+					"-framework",
+					libssl.a,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -470,8 +511,35 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pass/Pass-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"include/**",
+					"${PODS_HEADERS_SEARCH_PATHS}",
+				);
 				INFOPLIST_FILE = "Pass/Pass-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/lib\"",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					AVFoundation,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					CoreMedia,
+					"-framework",
+					CoreVideo,
+					"-framework",
+					ImageIO,
+					"-framework",
+					QuartzCore,
+					"-framework",
+					libssl.a,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
