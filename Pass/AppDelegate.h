@@ -12,6 +12,7 @@
 #import "LoginViewController.h"
 #import "ScanViewController.h"
 #import "NavigationViewController.h"
+#import "FMDatabase.h"
 
 @class LoginViewController;
 @class ScanViewController;
@@ -24,6 +25,10 @@
 @property (strong, nonatomic) UIViewController *scanViewController;
 @property (strong, nonatomic) UIViewController *navigationViewController;
 
+@property (strong, nonatomic) FMDatabase *db;
+
 @property (strong, nonatomic) NSString *token;
+
+- (NSString*)dbError;
 
 @end

@@ -14,11 +14,27 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    // Check if they have logged in yet
+    // --- Connect to SQLite database
+    
+	self.db = [FMDatabase databaseWithPath:@"pass.db"];
+    
+    // Open the database
+    if (![self.db open]) {
+        NSLog(@"%@", [self dbError]);
+        return NO;
+    } else {
+        // Make sure the necessary tables exist
+        if (! [self.db executeQuery:@"CREATE TABLE IF NOT EXIST services (id INTEGER PRIMARY KEY, key_name TEXT)"]) {
+            NSLog(@"%@", [self dbError]);
+            return NO;
+        }
+    }
+    
+    // --- Check if they have logged in yet
     KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
     self.token = [wrapper objectForKey:(id)CFBridgingRelease(kSecValueData)];
     
-    // Override point for customization after application launch.
+    // Determine if its an iPhone or iPad
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         self.loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController_iPhone" bundle:nil];
         self.scanViewController = [[ScanViewController alloc] initWithNibName:@"ScanViewController_iPhone" bundle:nil];
@@ -29,8 +45,10 @@
         self.navigationViewController = [[NavigationViewController alloc] initWithNibName:@"NavigationViewController_iPad" bundle:nil];
     }
     
+    // Create ViewDeck controller to allow access to basement navigation
     IIViewDeckController* deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.scanViewController leftViewController:self.navigationViewController];
     
+    // Show ViewDeck controller to logged in users, else login controller
     if( ! [self.token isEqualToString:@""]) {
         self.window.rootViewController = self.loginViewController;
     } else {
@@ -67,6 +85,11 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (NSString*)dbError
+{
+    return [[NSString*] stringWithFormat @"Database error %d: %@", [self.db lastErrorCode], [self.db lastErrorMessage]];
 }
 
 @end

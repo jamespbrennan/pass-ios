@@ -13,10 +13,15 @@
 
 @interface JBRSA : NSObject
 @property (unsafe_unretained, nonatomic) RSA *rsa;
+@property (unsafe_unretained, nonatomic) NSString *privateKey;
+@property (unsafe_unretained, nonatomic) NSString *publicKey;
 
 - (id)init;
 - (id)initWithPrivateKey: (NSString *)privateKey;
+- (id)initWithPrivateKey: (NSString *)privateKey withPublicKey:(NSString*) publicKey;
+- (void)loadPublicKey:(NSString*) key;
 - (void)loadPrivateKey:(NSString*) key;
+- (NSString *)publicEncrypt:(NSString*)plaintext;
 - (NSString *)privateEncrypt:(NSString*)plaintext;
 
 @end
