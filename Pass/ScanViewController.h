@@ -24,8 +24,11 @@
 @property (unsafe_unretained, nonatomic) IBOutlet UIBarButtonItem *btnShowNavigation;
 
 - (IBAction)showNavigationClicked;
+- (id)processResult:(ZXResult*)result;
 - (bool)register:(NSString*)token serviceId:(int)serviceId sessionId:(int)sessionId;
 - (bool)authenticate:(NSString*)token serviceId:(int)serviceId sessionId:(int)sessionId keyName:(NSString*)keyName;
+- (bool) setServiceKeyName:(int)serviceId keyName:(NSString*)keyName;
+- (NSString*) getServiceKeyName:(int)serviceId;
 - (void) alertStatus:(NSString *)msg :(NSString *)title;
 
 @end

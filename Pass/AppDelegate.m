@@ -52,7 +52,7 @@
     self.token = [wrapper objectForKey:(id)CFBridgingRelease(kSecValueData)];
     
     // Show ViewDeck controller to logged in users, else login controller
-    if( ! [self.token isEqualToString:@""]) {
+    if([self.token isEqualToString:@""]) {
         self.window.rootViewController = self.loginViewController;
     } else {
         self.window.rootViewController = deckController;

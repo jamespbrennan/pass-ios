@@ -49,34 +49,43 @@
 
 - (void)captureResult:(ZXCapture*)capture result:(ZXResult*)result {
     if (result) {
-        // Vibrate
-        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-        
-        NSArray *chunks = [result.text componentsSeparatedByString: @":"];
-        
-        
+        [self performSelectorOnMainThread:@selector(setText:) withObject:[self processResult:result] waitUntilDone:YES];
+    }
+}
 
-        if(chunks.count < 3)
+- (id)processResult:(ZXResult*)result {
+    // Vibrate
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    
+    NSArray *chunks = [result.text componentsSeparatedByString: @":"];
+    
+    if(chunks.count < 3)
+    {
+        // Extract values from QR code
+        int sessionId = [chunks[0] intValue];
+        int serviceId = [chunks[1] intValue];
+        NSString *token = chunks[2];
+        NSString *keyName = [self getServiceKeyName:serviceId];
+        
+        if(keyName)
         {
-            // Extract values from QR code
-            int sessionId = [chunks[0] intValue];
-            int serviceId = [chunks[1] intValue];
-            NSString *token = chunks[2];
-            NSString *keyName = [self getServiceKeyName:serviceId];
-            
-            if(keyName)
-            {
-                [self authenticate:token serviceId:serviceId sessionId:sessionId keyName:keyName];
-            }
-            else
-            {
-                // Register first, then authenticate
-                keyName = [self register:serviceId];
-                [self authenticate:token serviceId:serviceId sessionId:sessionId keyName:keyName];
-            }
-            
+            NSLog(@"Found a private key");
+            [self authenticate:token serviceId:serviceId sessionId:sessionId keyName:keyName];
+        }
+        else
+        {
+            NSLog(@"Generating a private key");
+            // Register first, then authenticate
+            keyName = [self register:serviceId];
+            [self authenticate:token serviceId:serviceId sessionId:sessionId keyName:keyName];
         }
     }
+    else
+    {
+        [self alertStatus:@"Sorry, that was not a valid login code. Please try loggin in again." :@""];
+    }
+    
+    return self;
 }
 
 - (NSString*)register:(int)serviceId
@@ -111,6 +120,8 @@
     
     if ([response statusCode] != 200)
     {
+        NSLog(@"Non-200 back from register");
+        
         // Log the NSURLConnection error, if any
         if (error) NSLog(@"Login error: %@", error);
         
@@ -125,6 +136,7 @@
         
         return nil;
     }
+    NSLog(@"200 back from register");
  
     return keyName;
 }
