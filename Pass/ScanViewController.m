@@ -67,7 +67,7 @@
             int sessionId = [chunks[0] intValue];
             int serviceId = [chunks[1] intValue];
             NSString *token = chunks[2];
-            NSString *keyName = [self getKeyName:serviceId];
+            NSString *keyName = [self getServiceKeyName:serviceId];
             
             if(keyName)
             {
@@ -86,8 +86,52 @@
 
 - (NSString*)register:(int)serviceId
 {
+    NSString *keyName = [[NSString alloc] initWithFormat:@"privateKeyService%d", serviceId];
     
-    return NO;
+    // Create a keypair
+    JBRSA *rsa = [[JBRSA alloc] init];
+    
+    // Store the private key
+    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:@"Pass"];
+    [wrapper setObject:rsa.privateKey forKey:(id)CFBridgingRelease(kSecValueData)];
+    [self setServiceKeyName:serviceId keyName:keyName];
+    
+    // Send off the public key
+    NSString *post = [[NSString alloc] initWithFormat:@"public_key=%@&service_id=%d", rsa.publicKey, serviceId];
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    
+    NSURL *url = [NSURL URLWithString:@"https://api.passauth.net/devices"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+    
+    NSError *error = [[NSError alloc] init];
+    NSHTTPURLResponse *response = nil;
+    NSData *urlData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    if ([response statusCode] != 200)
+    {
+        // Log the NSURLConnection error, if any
+        if (error) NSLog(@"Login error: %@", error);
+        
+        // Log Pass API error
+        NSString *responseData = [[NSString alloc]initWithData:urlData encoding:NSUTF8StringEncoding];
+        SBJsonParser *jsonParser = [SBJsonParser new];
+        NSDictionary *jsonData = (NSDictionary *) [jsonParser objectWithString:responseData];
+        NSString *message = [jsonData objectForKey:@"error[message]"];
+        NSLog(@"Login error: %@", message);
+        
+        [self alertStatus: @"Sorry, something went wrong on our end. Please try logging in again." :@"Error"];
+        
+        return nil;
+    }
+ 
+    return keyName;
 }
 
 - (bool)authenticate:(NSString*)token serviceId:(int)serviceId sessionId:(int)sessionId keyName:(NSString*)keyName {
@@ -108,7 +152,7 @@
     // Create a keypair for the service
     JBRSA *rsa = [[JBRSA alloc] initWithPrivateKey:privateKey];
     
-    NSString *post = [[NSString alloc] initWithFormat:@"token=%@&session_id=%d",[rsa privateEncrypt:token],sessionId];
+    NSString *post = [[NSString alloc] initWithFormat:@"token=%@&session_id=%d",[rsa base64EncodePrivateEncrypt:token],sessionId];
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
     

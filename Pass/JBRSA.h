@@ -23,5 +23,8 @@
 - (void)loadPrivateKey:(NSString*) key;
 - (NSString *)publicEncrypt:(NSString*)plaintext;
 - (NSString *)privateEncrypt:(NSString*)plaintext;
+- (NSString *)base64EncodePublicEncrypt:(NSString*)plaintext;
+- (NSString *)base64EncodePrivateEncrypt:(NSString*)plaintext;
+- (NSString *)base64FromString:(NSString *)string encodeWithNewlines:(BOOL)encodeWithNewlines;
 
 @end

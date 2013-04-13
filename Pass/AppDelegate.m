@@ -15,24 +15,23 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     // --- Connect to SQLite database
-    
-	self.db = [FMDatabase databaseWithPath:@"pass.db"];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+	self.db = [FMDatabase databaseWithPath:[documentsDirectory stringByAppendingPathComponent:@"/pass.db"]];
     
     // Open the database
-    if (![self.db open]) {
+    if ( ! [self.db open] ) {
         NSLog(@"%@", [self dbError]);
         return NO;
     } else {
         // Make sure the necessary tables exist
-        if (! [self.db executeQuery:@"CREATE TABLE IF NOT EXIST services (id INTEGER PRIMARY KEY, key_name TEXT)"]) {
+        if ( ! [self.db executeQuery:@"CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, key_name TEXT)"] ) {
             NSLog(@"%@", [self dbError]);
             return NO;
         }
     }
     
-    // --- Check if they have logged in yet
-    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
-    self.token = [wrapper objectForKey:(id)CFBridgingRelease(kSecValueData)];
+    // --- Setup ViewControllers
     
     // Determine if its an iPhone or iPad
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -47,6 +46,10 @@
     
     // Create ViewDeck controller to allow access to basement navigation
     IIViewDeckController* deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.scanViewController leftViewController:self.navigationViewController];
+    
+    // --- Check if they have logged in yet
+    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
+    self.token = [wrapper objectForKey:(id)CFBridgingRelease(kSecValueData)];
     
     // Show ViewDeck controller to logged in users, else login controller
     if( ! [self.token isEqualToString:@""]) {
@@ -89,7 +92,7 @@
 
 - (NSString*)dbError
 {
-    return [[NSString*] stringWithFormat @"Database error %d: %@", [self.db lastErrorCode], [self.db lastErrorMessage]];
+    return [[NSString alloc] initWithFormat:@"Database error %d: %@", [self.db lastErrorCode], [self.db lastErrorMessage]];
 }
 
 @end

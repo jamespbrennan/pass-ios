@@ -36,6 +36,7 @@
 		56C2DA671703AF0E00400D6D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56C2DA481703AF0E00400D6D /* Foundation.framework */; };
 		56C2DA6F1703AF0E00400D6D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 56C2DA6D1703AF0E00400D6D /* InfoPlist.strings */; };
 		56C2DA721703AF0E00400D6D /* PassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C2DA711703AF0E00400D6D /* PassTests.m */; };
+		56EBA3D91718DFE4006758B3 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 56EBA3D81718DFE4006758B3 /* libsqlite3.dylib */; };
 		56F91D4C1703F747000DC646 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56F91D4A1703F747000DC646 /* LoginViewController.m */; };
 		56F91D4D1703F747000DC646 /* LoginViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56F91D4B1703F747000DC646 /* LoginViewController_iPhone.xib */; };
 		7E68FD77D3C949D1A0C6E810 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55084214002446D58CFED462 /* libPods.a */; };
@@ -91,6 +92,7 @@
 		56C2DA6E1703AF0E00400D6D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		56C2DA701703AF0E00400D6D /* PassTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PassTests.h; sourceTree = "<group>"; };
 		56C2DA711703AF0E00400D6D /* PassTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PassTests.m; sourceTree = "<group>"; };
+		56EBA3D81718DFE4006758B3 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		56F91D491703F747000DC646 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		56F91D4A1703F747000DC646 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		56F91D4B1703F747000DC646 /* LoginViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56EBA3D91718DFE4006758B3 /* libsqlite3.dylib in Frameworks */,
 				5608C4F31710E896004474DD /* libssl.a in Frameworks */,
 				5608C4F11710E88C004474DD /* libcrypto.a in Frameworks */,
 				563CB8C5170D25D8002CA54D /* QuartzCore.framework in Frameworks */,
@@ -153,6 +156,7 @@
 		56C2DA451703AF0E00400D6D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				56EBA3D81718DFE4006758B3 /* libsqlite3.dylib */,
 				563CB8C4170D25D8002CA54D /* QuartzCore.framework */,
 				563CB8C2170D25D1002CA54D /* ImageIO.framework */,
 				563CB8C0170D25CC002CA54D /* CoreVideo.framework */,
