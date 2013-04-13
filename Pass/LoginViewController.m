@@ -93,10 +93,10 @@
     }
 }
 
-- (void) doRegistration:(NSString*)email withPassword:(NSString*)password {
+- (void) doRegistration:(NSString*)email [assword:(NSString*)password {
     // Post to users#create to make a user account
     NSMutableURLRequest *request = [self prepareRegistrationRequest:email withPassword:password];
-    
+
     NSError *error = [[NSError alloc] init];
     NSHTTPURLResponse *response = nil;
     NSData *urlData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
@@ -148,6 +148,9 @@
         
         NSLog(@"Token %@",token);
         NSLog(@"Login SUCCESS");
+        
+        // Switch to the ScanView
+        [((AppDelegate *)[UIApplication sharedApplication].delegate) loggedIn];
     }
     else
     {
@@ -156,15 +159,7 @@
     }
 }
 
-- (NSMutableURLRequest*) prepareLoginRequest:(NSString*)email withPassword:(NSString*)password {
-    return [self prepareRequest:@"http://api.pass-server.dev/devices" withEmail:email withPassword:password];
-}
-
-- (NSMutableURLRequest*) prepareRegistrationRequest:(NSString*)email withPassword:(NSString*)password {
-    return [self prepareRequest:@"http://api.pass-server.dev/users" withEmail:email withPassword:password];
-}
-
-- (NSMutableURLRequest*) prepareRequest:(NSString*)address withEmail:(NSString*)email withPassword:(NSString*)password {
+- (NSMutableURLRequest*) prepareLoginRequest:(NSString*)email withPassword:(NSString*)password {    
     @try {
         if ([email isEqualToString:@""] || [password isEqualToString:@""] )
         {
@@ -176,13 +171,46 @@
             email = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)email, NULL, (CFStringRef)@"!*'();:@&=+$,/?%#[]", kCFStringEncodingUTF8 ));
             password = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)password, NULL, (CFStringRef)@"!*'();:@&=+$,/?%#[]", kCFStringEncodingUTF8 ));
             
-            NSURL *url=[NSURL URLWithString:address];
+            NSURL *url=[NSURL URLWithString:@"https://api.passauth.net/devices"];
             
             NSString *post = [[NSString alloc] initWithFormat:@"email=%@&password=%@",email,password];
             NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
             NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
             
-            NSLog(@"PostData: %@",post);
+            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+            [request setURL:url];
+            [request setHTTPMethod:@"POST"];
+            [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+            [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+            [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+            [request setHTTPBody:postData];
+            
+            return request;
+        }
+    }
+    @catch (NSException * e) {
+        NSLog(@"Exception: %@", e);
+        [self alertStatus:@"Something has gone wrong on our end, please try to log in again in a few minutes." :@"Sorry, something went wrong."];
+    }
+}
+
+- (NSMutableURLRequest*) prepareRegistrationRequest:(NSString*)email withPassword:(NSString*)password {
+    @try {
+        if ([email isEqualToString:@""] || [password isEqualToString:@""] )
+        {
+            [self alertStatus:@"Please enter both email and password" :@"Hey there!"];
+        }
+        else
+        {
+            // URL encode the email and password
+            email = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)email, NULL, (CFStringRef)@"!*'();:@&=+$,/?%#[]", kCFStringEncodingUTF8 ));
+            password = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)password, NULL, (CFStringRef)@"!*'();:@&=+$,/?%#[]", kCFStringEncodingUTF8 ));
+            
+            NSURL *url=[NSURL URLWithString:@"https://api.passauth.net/users"];
+            
+            NSString *post = [[NSString alloc] initWithFormat:@"email=%@&password=%@",email,password];
+            NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+            NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
             
             NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
             [request setURL:url];

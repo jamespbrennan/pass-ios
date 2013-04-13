@@ -26,6 +26,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.title = @"Pass";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Left" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)];
 }
 
 - (void)didReceiveMemoryWarning

@@ -44,22 +44,22 @@
         self.navigationViewController = [[NavigationViewController alloc] initWithNibName:@"NavigationViewController_iPad" bundle:nil];
     }
     
-    // Create ViewDeck controller to allow access to basement navigation
-    IIViewDeckController* deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.scanViewController leftViewController:self.navigationViewController];
-    
     // --- Check if they have logged in yet
     KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
     self.token = [wrapper objectForKey:(id)CFBridgingRelease(kSecValueData)];
     
+    // Setup navigation controller
+    self.navController = [[UINavigationController alloc] initWithRootViewController:self.scanViewController];
+
+    // Create ViewDeck controller to allow access to basement navigation
+    self.deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.navController leftViewController:self.navigationViewController];
+
     // Show ViewDeck controller to logged in users, else login controller
-//    if([self.token isEqualToString:@""]) {
-//        self.window.rootViewController = self.loginViewController;
-//    } else {
-//        self.window.rootViewController = deckController;
-//    }
-    
-    self.navController = [[UINavigationController alloc] initWithRootViewController:deckController];
-    self.window.rootViewController = self.navController;
+    if([self.token isEqualToString:@""]) {
+        self.window.rootViewController = self.loginViewController;
+    } else {
+        self.window.rootViewController = self.deckController;
+    }
     
     [self.window makeKeyAndVisible];
     
@@ -93,9 +93,9 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-- (NSString*)dbError
+- (void)loggedIn
 {
-    return [[NSString alloc] initWithFormat:@"Database error %d: %@", [self.db lastErrorCode], [self.db lastErrorMessage]];
+    self.window.rootViewController = self.deckController;
 }
 
 @end

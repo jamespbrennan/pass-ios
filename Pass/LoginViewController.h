@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SBJson.h"
 #import "KeychainItemWrapper.h"
+#import "AppDelegate.h"
 
 @interface LoginViewController : UIViewController
 @property (unsafe_unretained, nonatomic) IBOutlet UITextField *txtEmail;

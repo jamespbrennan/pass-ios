@@ -27,11 +27,13 @@
 @property (strong, nonatomic) UIViewController *loginViewController;
 @property (strong, nonatomic) UIViewController *scanViewController;
 @property (strong, nonatomic) UIViewController *navigationViewController;
+@property (strong, nonatomic) IIViewDeckController *deckController;
 
 @property (strong, nonatomic) FMDatabase *db;
 
 @property (strong, nonatomic) NSString *token;
 
 - (NSString*)dbError;
+- (void)loggedIn;
 
 @end
