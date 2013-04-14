@@ -75,7 +75,7 @@
     return self;
 }
 
-- (id)initWithPrivateKey: (NSString *)privateKey withPublicKey:(NSString *)publicKey {
+- (id)initWithPrivateKeyAndPublicKey: (NSString *)privateKey publicKey:(NSString *)publicKey {
     
     if (self = [super init])
     {

@@ -11,7 +11,10 @@
 #import "FMDatabase.h"
 #import "KeychainItemWrapper.h"
 #import "SBJson.h"
+#import "JBRSA.h"
 
 @interface Pass : NSObject
+@property(nonatomic,strong) FMDatabase *db;
 
++ (id)sharedInstance;
 @end

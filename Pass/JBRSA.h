@@ -18,7 +18,7 @@
 
 - (id)init;
 - (id)initWithPrivateKey: (NSString *)privateKey;
-- (id)initWithPrivateKey: (NSString *)privateKey withPublicKey:(NSString*) publicKey;
+- (id)initWithPrivateKeyAndPublicKey: (NSString *)privateKey publicKey:(NSString*) publicKey;
 - (void)loadPublicKey:(NSString*) key;
 - (void)loadPrivateKey:(NSString*) key;
 - (NSString *)publicEncrypt:(NSString*)plaintext;
