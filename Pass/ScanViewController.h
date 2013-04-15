@@ -11,24 +11,17 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ZXingObjC.h"
 #import "IIViewDeckController.h"
-#import "KeychainItemWrapper.h"
-#import "JBRSA.h"
-#include "AppDelegate.h"
-#import "FMDatabase.h"
+#import "AppDelegate.h"
+#import "Pass.h"
+
 
 @class AppDelegate;
 
 @interface ScanViewController : UIViewController <ZXCaptureDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, retain) ZXCapture* capture;
-@property (unsafe_unretained, nonatomic) IBOutlet UIBarButtonItem *btnShowNavigation;
 
-- (IBAction)showNavigationClicked;
-- (id)processResult:(ZXResult*)result;
-- (bool)register:(NSString*)token serviceId:(int)serviceId sessionId:(int)sessionId;
-- (bool)authenticate:(NSString*)token serviceId:(int)serviceId sessionId:(int)sessionId keyName:(NSString*)keyName;
-- (bool) setServiceKeyName:(int)serviceId keyName:(NSString*)keyName;
-- (NSString*) getServiceKeyName:(int)serviceId;
+- (id) processResult:(ZXResult*)result;
 - (void) alertStatus:(NSString *)msg :(NSString *)title;
 
 @end

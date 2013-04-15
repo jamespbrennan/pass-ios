@@ -14,22 +14,8 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    // --- Connect to SQLite database
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-	self.db = [FMDatabase databaseWithPath:[documentsDirectory stringByAppendingPathComponent:@"/pass.db"]];
-    
-    // Open the database
-    if ( ! [self.db open] ) {
-        NSLog(@"%@", [self dbError]);
-        return NO;
-    } else {
-        // Make sure the necessary tables exist
-        if ( ! [self.db executeQuery:@"CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, key_name TEXT)"] ) {
-            NSLog(@"%@", [self dbError]);
-            return NO;
-        }
-    }
+    // Instantate Pass to do setup before going on
+    Pass *pass = [Pass sharedInstance];
     
     // --- Setup ViewControllers
     
@@ -44,10 +30,6 @@
         self.navigationViewController = [[NavigationViewController alloc] initWithNibName:@"NavigationViewController_iPad" bundle:nil];
     }
     
-    // --- Check if they have logged in yet
-    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
-    self.token = [wrapper objectForKey:(id)CFBridgingRelease(kSecValueData)];
-    
     // Setup navigation controller
     self.navController = [[UINavigationController alloc] initWithRootViewController:self.scanViewController];
 
@@ -55,7 +37,7 @@
     self.deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.navController leftViewController:self.navigationViewController];
 
     // Show ViewDeck controller to logged in users, else login controller
-    if([self.token isEqualToString:@""]) {
+    if([pass getAPIToken] == nil) {
         self.window.rootViewController = self.loginViewController;
     } else {
         self.window.rootViewController = self.deckController;

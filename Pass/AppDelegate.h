@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KeychainItemWrapper.h"
 #import "IIViewDeckController.h"
 #import "LoginViewController.h"
 #import "ScanViewController.h"
 #import "NavigationViewController.h"
-#import "FMDatabase.h"
+#import "Pass.h"
 
 @class LoginViewController;
 @class ScanViewController;
@@ -29,11 +28,6 @@
 @property (strong, nonatomic) UIViewController *navigationViewController;
 @property (strong, nonatomic) IIViewDeckController *deckController;
 
-@property (strong, nonatomic) FMDatabase *db;
-
-@property (strong, nonatomic) NSString *token;
-
-- (NSString*)dbError;
 - (void)loggedIn;
 
 @end
