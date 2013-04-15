@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KeychainItemWrapper.h"
 #import "IIViewDeckController.h"
 #import "LoginViewController.h"
 #import "ScanViewController.h"
 #import "NavigationViewController.h"
-#import "FMDatabase.h"
+#import "Pass.h"
 
 @class LoginViewController;
 @class ScanViewController;
@@ -21,14 +20,14 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (nonatomic, retain) UINavigationController *navController;
+
 @property (strong, nonatomic) UIViewController *loginViewController;
 @property (strong, nonatomic) UIViewController *scanViewController;
 @property (strong, nonatomic) UIViewController *navigationViewController;
+@property (strong, nonatomic) IIViewDeckController *deckController;
 
-@property (strong, nonatomic) FMDatabase *db;
-
-@property (strong, nonatomic) NSString *token;
-
-- (NSString*)dbError;
+- (void)loggedIn;
 
 @end
