@@ -24,15 +24,45 @@ static NSString * const apiVersion = @"v1";
     return sharedInstance;
 }
 
+// Register user
+//
+// Create a user account
+//
+
 -(bool)registerUser:(NSString*)email password:(NSString*)password
 {
-    return YES;
+    NSHTTPURLResponse *response;
+    NSError *error;
+    NSMutableDictionary *params;
+    [params setObject:email forKey:@"email"];
+    [params setObject:password forKey:@"password"];
+    NSDictionary *json = [self post:params endpoint:@"/devices" withToken:NO response:&response error:&error];
+    
+    if(response.statusCode == 200)
+    {
+        return YES;
+    }
+    else
+    {
+        if(error) NSLog(@"Register user error: %@", error);
+        
+        // Get error message from server
+        NSDictionary *jsonError = [json objectForKey:@"error"];
+        
+        if([jsonError objectForKey:@"message"])
+            NSLog(@"Register user error: %@", [jsonError objectForKey:@"message"]);
+        else
+            NSLog(@"Register user error but no error message returned from server.");
+        
+        return NO;
+    }
 }
 
 // Login
 //
 // Login with a username/password. Creates a device on the server attached to the user who logged in.
 //
+
 -(bool)login:(NSString*)email password:(NSString*)password
 {
     NSHTTPURLResponse *response;
@@ -54,7 +84,7 @@ static NSString * const apiVersion = @"v1";
         }
         else
         {
-            [self setToken:token];
+            [self setAPIToken:token];
             return YES;
         }
     }
@@ -144,17 +174,32 @@ static NSString * const apiVersion = @"v1";
     return YES;
 }
 
--(void)setToken:(NSString*)token
+// Set API Token
+//
+// Store the device API token in the keychain
+//
+
+-(void)setAPIToken:(NSString*)token
 {
     KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:@"Pass"];
     [wrapper setObject:token forKey:(id)CFBridgingRelease(kSecValueData)];
 }
 
--(NSString *)getToken
+// Get API Token
+//
+// Get the device API token from the keychain.
+//
+
+-(NSString *)getAPIToken
 {
     KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
     return [wrapper objectForKey:(id)CFBridgingRelease(kSecValueData)];
 }
+
+// Post
+//
+// Execute a post request to the server.
+//
 
 -(NSDictionary *)post:(NSMutableDictionary*)params endpoint:(NSString *)endpoint withToken:(bool)withToken response:(NSHTTPURLResponse**)response error:(NSError**)error
 {
@@ -184,7 +229,7 @@ static NSString * const apiVersion = @"v1";
     
     if(withToken)
     {
-        NSString *token = [[NSString alloc] initWithFormat:@"Token %@", [self getToken]];
+        NSString *token = [[NSString alloc] initWithFormat:@"Token %@", [self getAPIToken]];
         [request setValue:token forHTTPHeaderField:@"Authorization"];
     }
     
@@ -193,6 +238,11 @@ static NSString * const apiVersion = @"v1";
     
     return (NSDictionary *) [jsonParser objectWithString:[[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding]];
 }
+
+// Set Service Private Key
+//
+// Store a private key in the keychain for a given service.
+//
 
 - (bool) setServicePrivateKey:(int)serviceId privateKey:(NSString*)privateKey
 {
@@ -206,6 +256,11 @@ static NSString * const apiVersion = @"v1";
     return [self.db executeQuery:@"INSERT OR REPLACE INTO services (id, key_name) VALUES(?, ?)", [NSNumber numberWithInteger:serviceId], keyName];
 }
 
+// Get Service Private Key
+//
+// Get a private key from the keychain for a given service. Returns `nil` if none found.
+//
+
 - (NSString *) getServicePrivateKey:(int)serviceId
 {
     FMResultSet *s = [self.db executeQuery:@"SELECT key_name FROM services WHERE id = (?) LIMIT 1", [NSNumber numberWithInteger:serviceId]];
@@ -216,6 +271,11 @@ static NSString * const apiVersion = @"v1";
         return nil;
     }
 }
+
+// Load DB
+//
+// Open and initialize the database.
+//
 
 - (void)loadDb
 {
@@ -240,10 +300,20 @@ static NSString * const apiVersion = @"v1";
     }
 }
 
+// DB Error
+//
+// Log the last database error.
+//
+
 - (NSString*)dbError
 {
     return [[NSString alloc] initWithFormat:@"Database error %d: %@", [self.db lastErrorCode], [self.db lastErrorMessage]];
 }
+
+// Get Device Model
+//
+// Get the device's model.
+//
 
 - (NSString *)getDeviceModel
 {
