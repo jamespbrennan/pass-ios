@@ -43,13 +43,70 @@
 }
 
 - (IBAction) loginClicked:(id)sender {
-    Pass *pass = [Pass sharedInstance];
-    [pass login:[_txtEmail text] password:[_txtPassword text]];
+    if( ! ([_txtEmail text] && [_txtPassword text]) )
+    {
+        [self alertStatus:@"Sorry, both email and password are required. Fill them in and login again." : @"Hey there!"];
+    }
+    else
+    {
+        Pass *pass = [Pass sharedInstance];
+        NSError *error = [[NSError alloc] init];
+        
+        if ([pass login:[_txtEmail text] password:[_txtPassword text] error:&error])
+        {
+            // Change the view to logged in
+            AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate loggedIn];
+        }
+        else
+        {
+            // Display an error message
+            [self errorMessage:error];
+        }
+    }
 }
 
 - (IBAction) createAccountClicked:(id)sender {
-    Pass *pass = [Pass sharedInstance];
-    [pass registerUser:[_txtEmail text] withPassword:[_txtPassword text]];
+    if( ! ([_txtEmail text] && [_txtPassword text]) )
+    {
+        [self alertStatus:@"Sorry, both email and password are required. Fill them in and register again." : @"Hey there!"];
+    }
+    else
+    {
+        Pass *pass = [Pass sharedInstance];
+        NSError *error = [[NSError alloc] init];
+        
+        if( [pass registerUser:[_txtEmail text] password:[_txtPassword text] error:&error] )
+        {
+            if( [pass login:[_txtEmail text] password:[_txtPassword text] error:&error] )
+            {
+                // Change the view to logged in
+                AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate loggedIn];
+            }
+            else
+            {
+                // Display an error message
+                [self errorMessage:error];
+            }
+        }
+        else
+        {
+            // Display an error message
+            [self errorMessage:error];
+        }
+    }
+}
+
+// Error Message
+//
+// Display an error message from an NSError.
+//
+
+- (void) errorMessage:(NSError*)error
+{
+    NSString *message = (error) ? [[NSString alloc] initWithFormat:@"%@", error] : [[NSString alloc] initWithFormat:@"Sorry, something has gone wrong."];
+    [self alertStatus:message :@"Error"];
 }
 
 - (IBAction) backgroundClicked:(id)sender {

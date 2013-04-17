@@ -17,9 +17,12 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    
+    if (self)
+    {
+        [self performSelector:@selector(resetLastCapture:) withObject:self afterDelay:30.0];
     }
+    
     return self;
 }
 
@@ -50,8 +53,9 @@
 }
 
 - (void)captureResult:(ZXCapture*)capture result:(ZXResult*)result {
-    if (result) {
-        [self performSelectorOnMainThread:@selector(setText:) withObject:[self processResult:result] waitUntilDone:YES];
+    if (result && ! [result.text isEqualToString:self.lastCapture]) {
+        self.lastCapture = result.text;
+        [self processResult:result];
     }
 }
 
@@ -61,8 +65,9 @@
     
     NSArray *chunks = [result.text componentsSeparatedByString: @":"];
     Pass *pass = [Pass sharedInstance];
+    NSError *error = [[NSError alloc] init];
     
-    if(chunks.count < 3)
+    if(chunks.count == 3)
     {
         // Extract values from QR code
         int sessionId = [chunks[0] intValue];
@@ -75,11 +80,12 @@
             if( ! [pass register:serviceId] )
             {
                 [self alertStatus:@"Sorry, I wasn't able to register you succesfully. Please try logging in again." :@""];
+                return self;
             }
         }
         
         // Authenticate
-        if ( ! [pass authenticate:token sessionId:sessionId serviceId:serviceId] )
+        if ( ! [pass authenticate:token sessionId:sessionId serviceId:serviceId error:&error] )
         {
             [self alertStatus:@"Sorry, I wasn't able to log you in successfully." :@""];
         }
@@ -97,6 +103,11 @@
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
     
     [alertView show];
+}
+
+- (void) resetLastCapture:(id)s
+{
+    self.lastCapture = nil;
 }
 
 - (void)viewDidUnload {

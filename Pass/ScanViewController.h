@@ -19,9 +19,10 @@
 
 @interface ScanViewController : UIViewController <ZXCaptureDelegate, UINavigationControllerDelegate>
 
-@property (nonatomic, retain) ZXCapture* capture;
+@property (nonatomic, retain) ZXCapture *capture;
+@property (nonatomic, retain) NSString *lastCapture;
 
-- (id) processResult:(ZXResult*)result;
+- (id) processResult:(ZXResult *)result;
 - (void) alertStatus:(NSString *)msg :(NSString *)title;
 
 @end

@@ -14,8 +14,18 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    // Instantate Pass to do setup before going on
+    // --- Instantate Pass to do setup before going on
     Pass *pass = [Pass sharedInstance];
+    
+    // --- Clear keychain on first run in case of reinstallation
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"FirstRun"]) {
+        [pass firstRunCleanUp];
+        
+        [[NSUserDefaults standardUserDefaults] setValue:@"1strun" forKey:@"FirstRun"];
+    }
+    
+    // --- Ensure all database tables are created
+    [pass initDb];
     
     // --- Setup ViewControllers
     
@@ -37,7 +47,8 @@
     self.deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.navController leftViewController:self.navigationViewController];
 
     // Show ViewDeck controller to logged in users, else login controller
-    if([pass getAPIToken] == nil) {
+    if([[pass getAPIToken] isEqualToString:@""])
+    {
         self.window.rootViewController = self.loginViewController;
     } else {
         self.window.rootViewController = self.deckController;
