@@ -43,16 +43,29 @@
 }
 
 - (IBAction) loginClicked:(id)sender {
-    if( ! ([_txtEmail text] && [_txtPassword text]) )
+    Pass *pass = [Pass sharedInstance];
+    NSError *error = [[NSError alloc] init];
+    
+    if ([pass login:[_txtEmail text] password:[_txtPassword text] error:&error])
     {
-        [self alertStatus:@"Sorry, both email and password are required. Fill them in and login again." : @"Hey there!"];
+        // Change the view to logged in
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate loggedIn];
     }
     else
     {
-        Pass *pass = [Pass sharedInstance];
-        NSError *error = [[NSError alloc] init];
-        
-        if ([pass login:[_txtEmail text] password:[_txtPassword text] error:&error])
+        // Display an error message
+        [self errorMessage:error];
+    }
+}
+
+- (IBAction) createAccountClicked:(id)sender {
+    Pass *pass = [Pass sharedInstance];
+    NSError *error = [[NSError alloc] init];
+    
+    if( [pass registerUser:[_txtEmail text] password:[_txtPassword text] error:&error] )
+    {
+        if( [pass login:[_txtEmail text] password:[_txtPassword text] error:&error] )
         {
             // Change the view to logged in
             AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -64,37 +77,10 @@
             [self errorMessage:error];
         }
     }
-}
-
-- (IBAction) createAccountClicked:(id)sender {
-    if( ! ([_txtEmail text] && [_txtPassword text]) )
-    {
-        [self alertStatus:@"Sorry, both email and password are required. Fill them in and register again." : @"Hey there!"];
-    }
     else
     {
-        Pass *pass = [Pass sharedInstance];
-        NSError *error = [[NSError alloc] init];
-        
-        if( [pass registerUser:[_txtEmail text] password:[_txtPassword text] error:&error] )
-        {
-            if( [pass login:[_txtEmail text] password:[_txtPassword text] error:&error] )
-            {
-                // Change the view to logged in
-                AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                [appDelegate loggedIn];
-            }
-            else
-            {
-                // Display an error message
-                [self errorMessage:error];
-            }
-        }
-        else
-        {
-            // Display an error message
-            [self errorMessage:error];
-        }
+        // Display an error message
+        [self errorMessage:error];
     }
 }
 
@@ -105,8 +91,8 @@
 
 - (void) errorMessage:(NSError*)error
 {
-    NSString *message = (error) ? [[NSString alloc] initWithFormat:@"%@", error] : [[NSString alloc] initWithFormat:@"Sorry, something has gone wrong."];
-    [self alertStatus:message :@"Error"];
+    NSString *message = (error) ? [[NSString alloc] initWithFormat:@"%@", error.localizedDescription] : [[NSString alloc] initWithFormat:@"Sorry, something has gone wrong."];
+    [self alertStatus:message :@"Hey there!"];
 }
 
 - (IBAction) backgroundClicked:(id)sender {

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #include <sys/sysctl.h>
+#import "PassError.h"
 #import "FMDatabase.h"
 #import "KeychainItemWrapper.h"
 #import "SBJson.h"
@@ -31,4 +32,6 @@
 - (NSString*)dbError;
 - (NSString *)getDeviceModel;
 - (void)firstRunCleanUp;
+- (bool) validateEmail:(id *)ioValue error:(NSError **)outError;
+- (NSError *)createErrorWithMessage:(NSString *)userMessage parameter:(NSString *)parameter cardErrorCode:(NSString *)errorCode devErrorMessage:(NSString *)devMessage;
 @end

@@ -30,6 +30,18 @@ static NSString * const apiVersion = @"v1";
 
 -(bool)registerUser:(NSString*)email password:(NSString*)password error:(NSError**)error
 {
+    // Validate request
+    if( ! [self validateEmail:&email error:error])
+    {
+        return NO;
+    }
+    
+    if( ! [self validatePassword:&password error:error])
+    {
+        return NO;
+    }
+    
+    // Prepare request
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] init];
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     [params setObject:email forKey:@"email"];
@@ -64,6 +76,18 @@ static NSString * const apiVersion = @"v1";
 
 -(bool)login:(NSString*)email password:(NSString*)password error:(NSError**)error
 {
+    // Validate request
+    if( ! [self validateEmail:&email error:error])
+    {
+        return NO;
+    }
+    
+    if( ! [self validatePassword:&password error:error])
+    {
+        return NO;
+    }
+    
+    // Prepare request
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] init];
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     [params setObject:email forKey:@"email"];
@@ -97,6 +121,13 @@ static NSString * const apiVersion = @"v1";
             NSLog(@"Login error: %@", [jsonError objectForKey:@"message"]);
         else
             NSLog(@"Login error but no error message returned from server.");
+        
+        // If its a 401, show a more friendly message to the user
+        if([*error code] == -1012)
+        {
+            NSDictionary *userInfoDict = @{ NSLocalizedDescriptionKey : PAEmailPasswordAuthenticationErrorMessage };
+            *error = [[NSError alloc] initWithDomain:PassDomain code:401 userInfo:userInfoDict];
+        }
         
         return NO;
     }
@@ -343,7 +374,7 @@ static NSString * const apiVersion = @"v1";
 // Cleanup files on first run that could still be around after uninstalling the app
 //
 
--(void)firstRunCleanUp
+- (void)firstRunCleanUp
 {
     // Clean the device token
     KeychainItemWrapper *keychain = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
@@ -355,4 +386,38 @@ static NSString * const apiVersion = @"v1";
         NSLog(@"%@", [self dbError]);
     }
 }
+
+- (bool) validateEmail:(id *)ioValue error:(NSError **)outError
+{
+    NSString *checkString = [(NSString *)*ioValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"];
+    
+    if (*ioValue == nil || ! [emailTest evaluateWithObject:checkString])
+    {
+        *outError = [self createErrorWithMessage:PAInvalidEmailMessage parameter:@"email" errorCode:PAInvalidEmail devErrorMessage:@"Email must contain a valid email address."];
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (bool) validatePassword:(id *)ioValue error:(NSError **)outError
+{
+    NSString *checkString = (NSString *)*ioValue;
+    
+    if (*ioValue == nil || checkString.length == 0)
+    {
+        *outError = [self createErrorWithMessage:PAInvalidPasswordMessage parameter:@"password" errorCode:PAInvalidPassword devErrorMessage:@"Password must not be blank."];
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (NSError *)createErrorWithMessage:(NSString *)userMessage parameter:(NSString *)parameter errorCode:(NSString *)errorCode devErrorMessage:(NSString *)devMessage {
+    NSDictionary *userInfoDict = @{ NSLocalizedDescriptionKey:userMessage, PAErrorParameterKey:parameter, PAErrorCodeKey:errorCode,PAErrorMessageKey:devMessage };
+    
+    return [[NSError alloc] initWithDomain:PassDomain code:PAInvalidParameterError userInfo:userInfoDict];
+}
+
 @end

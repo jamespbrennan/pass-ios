@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5608193A171F70520099B984 /* PassError.m in Sources */ = {isa = PBXBuildFile; fileRef = 56081939171F70520099B984 /* PassError.m */; };
 		5608C4F11710E88C004474DD /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5608C4F01710E88C004474DD /* libcrypto.a */; };
 		5608C4F31710E896004474DD /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5608C4F21710E896004474DD /* libssl.a */; };
 		5608C4F91710E965004474DD /* JBRSA.m in Sources */ = {isa = PBXBuildFile; fileRef = 5608C4F81710E965004474DD /* JBRSA.m */; };
@@ -55,6 +56,8 @@
 
 /* Begin PBXFileReference section */
 		55084214002446D58CFED462 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		56081938171F70520099B984 /* PassError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassError.h; sourceTree = "<group>"; };
+		56081939171F70520099B984 /* PassError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassError.m; sourceTree = "<group>"; };
 		5608C4F01710E88C004474DD /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
 		5608C4F21710E896004474DD /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = lib/libssl.a; sourceTree = "<group>"; };
 		5608C4F71710E965004474DD /* JBRSA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBRSA.h; sourceTree = "<group>"; };
@@ -198,6 +201,8 @@
 				5608C4F81710E965004474DD /* JBRSA.m */,
 				56EBA3DA1718FAC2006758B3 /* Pass.h */,
 				56EBA3DB1718FAC2006758B3 /* Pass.m */,
+				56081938171F70520099B984 /* PassError.h */,
+				56081939171F70520099B984 /* PassError.m */,
 			);
 			path = Pass;
 			sourceTree = "<group>";
@@ -372,6 +377,7 @@
 				563CB8B8170D1DFC002CA54D /* NavigationViewController.m in Sources */,
 				5608C4F91710E965004474DD /* JBRSA.m in Sources */,
 				56EBA3DC1718FAC3006758B3 /* Pass.m in Sources */,
+				5608193A171F70520099B984 /* PassError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
