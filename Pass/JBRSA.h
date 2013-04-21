@@ -10,6 +10,8 @@
 #include <openssl/rsa.h>
 #include <openssl/engine.h>
 #include <openssl/pem.h>
+#include <openssl/sha.h>
+#include <openssl/evp.h>
 
 @interface JBRSA : NSObject
 @property (unsafe_unretained, nonatomic) RSA *rsa;
@@ -18,13 +20,11 @@
 
 - (id)init;
 - (id)initWithPrivateKey: (NSString *)privateKey;
-- (id)initWithPrivateKeyAndPublicKey: (NSString *)privateKey publicKey:(NSString*) publicKey;
-- (void)loadPublicKey:(NSString*) key;
 - (void)loadPrivateKey:(NSString*) key;
-- (NSString *)publicEncrypt:(NSString*)plaintext;
-- (NSString *)privateEncrypt:(NSString*)plaintext;
-- (NSString *)base64EncodePublicEncrypt:(NSString*)plaintext;
-- (NSString *)base64EncodePrivateEncrypt:(NSString*)plaintext;
+- (NSString *)signature:(NSString*)token;
+- (NSString *)base64EncodeSignature:(NSString*)token;
 - (NSString *)base64FromString:(NSString *)string encodeWithNewlines:(BOOL)encodeWithNewlines;
+- (NSString *)sha512FromString:(NSString *)string;
+- (NSString *)privateEncrypt:(NSString*)plaintext;
 
 @end

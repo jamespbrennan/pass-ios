@@ -23,6 +23,7 @@
 @property (nonatomic, retain) NSString *lastCapture;
 
 - (id) processResult:(ZXResult *)result;
-- (void) alertStatus:(NSString *)msg :(NSString *)title;
+- (void) alertStatus:(NSString *)message :(NSString *)title;
+- (void) errorMessage:(NSError*)error;
 
 @end

@@ -18,7 +18,8 @@
     Pass *pass = [Pass sharedInstance];
     
     // --- Clear keychain on first run in case of reinstallation
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"FirstRun"]) {
+    if ( ! [[NSUserDefaults standardUserDefaults] objectForKey:@"FirstRun"]) {
+        NSLog(@"Cleaning up...");
         [pass firstRunCleanUp];
         
         [[NSUserDefaults standardUserDefaults] setValue:@"1strun" forKey:@"FirstRun"];
@@ -45,7 +46,7 @@
 
     // Create ViewDeck controller to allow access to basement navigation
     self.deckController = [[IIViewDeckController alloc] initWithCenterViewController:self.navController leftViewController:self.navigationViewController];
-
+    
     // Show ViewDeck controller to logged in users, else login controller
     if([[pass getAPIToken] isEqualToString:@""])
     {

@@ -18,3 +18,5 @@ NSString * const PAEmailPasswordAuthenticationError = @"net.passauth.pass:EmailP
 NSString * const PAPrivateKeyAuthenticationError = @"net.passauth.pass:PrivateKeyAuthenticationError";
 NSString * const PAInvalidEmail = @"net.passauth.pass:InvalidEmail";
 NSString * const PAInvalidPassword = @"net.passauth.pass:InvalidEmail";
+NSString * const PAFailedAuthentication = @"net.passauth.pass:FailedAuthentication";
+NSString * const PAServerError = @"net.passauth.pass:ServerError";

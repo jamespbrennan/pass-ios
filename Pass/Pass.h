@@ -20,11 +20,11 @@
 + (Pass *)sharedInstance;
 -(bool)registerUser:(NSString*)email password:(NSString*)password error:(NSError**)error;
 -(bool)login:(NSString*)email password:(NSString*)password error:(NSError**)error;
--(bool)register:(int)serviceId;
+-(bool)registerWithService:(int)serviceId;
 -(bool)authenticate:(NSString *)token sessionId:(int)sessionId serviceId:(int)serviceId error:(NSError**)error;
+-(NSDictionary *)post:(NSMutableDictionary*)params endpoint:(NSString *)endpoint withToken:(bool)withToken response:(NSHTTPURLResponse**)response error:(NSError**)error;
 -(void)setDeviceAPIToken:(NSString*)token;
 -(NSString *)getAPIToken;
--(NSDictionary *)post:(NSMutableDictionary*)params endpoint:(NSString *)endpoint withToken:(bool)withToken response:(NSHTTPURLResponse**)response error:(NSError**)error;
 - (bool) setServicePrivateKey:(int)serviceId privateKey:(NSString*)privateKey;
 - (NSString *) getServicePrivateKey:(int)serviceId;
 - (void)loadDb;
@@ -33,5 +33,6 @@
 - (NSString *)getDeviceModel;
 - (void)firstRunCleanUp;
 - (bool) validateEmail:(id *)ioValue error:(NSError **)outError;
+- (bool) validatePassword:(id *)ioValue error:(NSError **)outError;
 - (NSError *)createErrorWithMessage:(NSString *)userMessage parameter:(NSString *)parameter cardErrorCode:(NSString *)errorCode devErrorMessage:(NSString *)devMessage;
 @end

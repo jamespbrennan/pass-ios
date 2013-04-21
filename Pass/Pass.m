@@ -48,7 +48,7 @@ static NSString * const apiVersion = @"v1";
     [params setObject:password forKey:@"password"];
     
     NSDictionary *json = [self post:params endpoint:@"/users" withToken:NO response:&response error:error];
-    NSLog(@"%d", response.statusCode);
+
     if(response.statusCode == 200)
     {
         return YES;
@@ -138,7 +138,7 @@ static NSString * const apiVersion = @"v1";
 // Register the device to a service. Creates a RSA keypair for the specific service and stores it in the keychain.
 //
 
--(bool)register:(int)serviceId
+-(bool)registerWithService:(int)serviceId
 {
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] init];
     NSError *error = [[NSError alloc] init];
@@ -180,22 +180,46 @@ static NSString * const apiVersion = @"v1";
     
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     [params setObject:[[NSString alloc] initWithFormat:@"%d", sessionId] forKey:@"id"];
-    [params setObject:[rsa privateEncrypt:token] forKey:@"token"];
+    [params setObject:[rsa base64EncodeSignature:token] forKey:@"token"];
     
-    NSDictionary *responseData = [self post:params endpoint:@"/sessions/authenticate" withToken:YES response:&response error:error];
+    NSLog(@"sig: %@", [params objectForKey:@"token"]);
     
-    if ([response statusCode] != 200)
+    NSDictionary *responseData = [self post:params endpoint:@"/sessions/authenticate" withToken:NO response:&response error:error];
+    
+    // NSURLRequest error
+    if([response statusCode] == 0)
     {
-        // Log the NSURLConnection error, if any
-        if (*error) NSLog(@"Login error: %@", *error);
+        // HTTP 401
+        if ( [*error code] == -1012 )
+        {
+            *error = [self createErrorWithMessage:PAFailedAuthenticationMessage parameter:@"token" errorCode:PAFailedAuthentication devErrorMessage:@"Password must not be blank."];
+        }
+        else
+        {
+            NSLog(@"Login error: %@ %@", *error, [*error userInfo]);
+            
+            *error = [self createErrorWithMessage:PAServerErrorMessage parameter:@"token" errorCode:PAServerError devErrorMessage:@"Authenticate: communication error."];
+        }
         
-        NSString *message = [responseData objectForKey:@"error[message]"];
-        NSLog(@"Login error: %@", message);
-        return nil;
+        return NO;
     }
     
-    if ( ! (bool) [responseData objectForKey:@"is_authenticated"])
+    // HTTP 500 Server error
+    if([response statusCode] == 500)
     {
+        *error = [self createErrorWithMessage:PAServerErrorMessage parameter:@"token" errorCode:PAServerError devErrorMessage:@"Authenticate: 500 server error."];
+        return NO;
+    }
+    
+    // Something else
+    if([response statusCode] != 200)
+    {
+        NSDictionary *responseDataError = [responseData objectForKey:@"error"];
+        NSString *message = [[NSString alloc] initWithFormat:@"Authenticate error: %@ Status code: %d", [responseDataError objectForKey:@"message"], response.statusCode];
+        NSLog(@"%@", message);
+        
+        *error = [self createErrorWithMessage:PAServerErrorMessage parameter:@"token" errorCode:PAServerError devErrorMessage:message];
+        
         return NO;
     }
     
@@ -287,7 +311,15 @@ static NSString * const apiVersion = @"v1";
     [keychain setObject:privateKey forKey:(__bridge id)(kSecValueData)];
     
     // Insert record for the service
-    return [self.db executeQuery:@"INSERT OR REPLACE INTO services (id, key_name) VALUES(?, ?)", [NSNumber numberWithInteger:serviceId], keyName];
+    if ([self.db executeUpdate:@"INSERT OR REPLACE INTO services (id, key_name) VALUES(?, ?)", [NSNumber numberWithInteger:serviceId], keyName])
+    {
+        return YES;
+    }
+    else
+    {
+        NSLog(@"setServicePrivateKey database error: %@", [self dbError]);
+        return NO;
+    }
 }
 
 // Get Service Private Key
@@ -298,9 +330,16 @@ static NSString * const apiVersion = @"v1";
 - (NSString *) getServicePrivateKey:(int)serviceId
 {
     FMResultSet *s = [self.db executeQuery:@"SELECT key_name FROM services WHERE id = (?) LIMIT 1", [NSNumber numberWithInteger:serviceId]];
+    
+    if( s == nil)
+    {
+        NSLog(@"getServicePrivateKey database error: %@", [self dbError]);
+        return nil;
+    }
+    
     if ([s next] && [s stringForColumn:@"key_name"]) {
         KeychainItemWrapper *keychain = [[KeychainItemWrapper alloc] initWithIdentifier:[s stringForColumn:@"key_name"] accessGroup:nil];
-        return [keychain objectForKey:[s stringForColumn:@"key_name"]];
+        return [keychain objectForKey:(__bridge id)(kSecValueData)];
     } else {
         return nil;
     }
@@ -315,28 +354,32 @@ static NSString * const apiVersion = @"v1";
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    self.db = [FMDatabase databaseWithPath:[documentsDirectory stringByAppendingPathComponent:@"/pass.db"]];
+    self.db = [FMDatabase databaseWithPath:[documentsDirectory stringByAppendingPathComponent:@"/pass.sqlite3"]];
     
     // Open the database
     if ( ! [self.db open] )
     {
-        NSLog(@"%@", [self dbError]);
+        NSLog(@"loadDB database error: %@", [self dbError]);
     }
 }
 
+// Init DB
+//
+// Make sure the necessary tables exist
+//
+
 - (void) initDb {
-    // --- Make sure the necessary tables exist
-    
+    NSLog(@"Initalizing database...");
     // Services
-    if ( ! [self.db executeQuery:@"CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, key_name TEXT)"] )
+    if ( ! ([self.db executeUpdate:@"CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, key_name TEXT)"]) )
     {
-        NSLog(@"%@", [self dbError]);
+        NSLog(@"initDB database error: %@", [self dbError]);
     }
 }
 
 // DB Error
 //
-// Log the last database error.
+// Get the last database error.
 //
 
 - (NSString*)dbError
@@ -369,7 +412,7 @@ static NSString * const apiVersion = @"v1";
     return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)string, NULL, (CFStringRef)@"!*'();:@&=+$,/?%#[]", kCFStringEncodingUTF8 ));
 }
 
-// Cleanup
+// First Run Cleanup
 //
 // Cleanup files on first run that could still be around after uninstalling the app
 //
@@ -387,6 +430,11 @@ static NSString * const apiVersion = @"v1";
     }
 }
 
+// Validate Email
+//
+// Validate presence and format of an email.
+//
+
 - (bool) validateEmail:(id *)ioValue error:(NSError **)outError
 {
     NSString *checkString = [(NSString *)*ioValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -401,6 +449,10 @@ static NSString * const apiVersion = @"v1";
     return YES;
 }
 
+// Validate Password
+//
+// Validate the presence of a password.
+//
 - (bool) validatePassword:(id *)ioValue error:(NSError **)outError
 {
     NSString *checkString = (NSString *)*ioValue;
@@ -413,6 +465,11 @@ static NSString * const apiVersion = @"v1";
     
     return YES;
 }
+
+// Create Error With Message
+//
+// Create an error message with a user facing localized description.
+//
 
 - (NSError *)createErrorWithMessage:(NSString *)userMessage parameter:(NSString *)parameter errorCode:(NSString *)errorCode devErrorMessage:(NSString *)devMessage {
     NSDictionary *userInfoDict = @{ NSLocalizedDescriptionKey:userMessage, PAErrorParameterKey:parameter, PAErrorCodeKey:errorCode,PAErrorMessageKey:devMessage };

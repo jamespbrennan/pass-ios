@@ -52,12 +52,22 @@
     [self.view.layer addSublayer:self.capture.layer];
 }
 
+// Capture Result
+//
+//
+//
+
 - (void)captureResult:(ZXCapture*)capture result:(ZXResult*)result {
     if (result && ! [result.text isEqualToString:self.lastCapture]) {
         self.lastCapture = result.text;
         [self processResult:result];
     }
 }
+
+// Process Result
+//
+//
+//
 
 - (id)processResult:(ZXResult*)result {
     // Vibrate
@@ -74,12 +84,14 @@
         int serviceId = [chunks[1] intValue];
         NSString *token = chunks[2];
         
-        if([pass getServicePrivateKey:serviceId] == nil)
+        if([[pass getServicePrivateKey:serviceId] isEqualToString:@""] || [pass getServicePrivateKey:serviceId] == nil)
         {
+            NSLog(@"Registering...");
+            
             // Register first, then authenticate
-            if( ! [pass register:serviceId] )
+            if( ! [pass registerWithService:serviceId] )
             {
-                [self alertStatus:@"Sorry, I wasn't able to register you succesfully. Please try logging in again." :@""];
+                [self errorMessage:error];
                 return self;
             }
         }
@@ -87,16 +99,21 @@
         // Authenticate
         if ( ! [pass authenticate:token sessionId:sessionId serviceId:serviceId error:&error] )
         {
-            [self alertStatus:@"Sorry, I wasn't able to log you in successfully." :@""];
+            [self errorMessage:error];
         }
     }
     else
     {
-        [self alertStatus:@"Sorry, that was not a valid login code. Please try loggin in again. Please try logging in again." :@""];
+        [self alertStatus:@"Sorry, that was not a valid login code. Please try loggin in again. Please try logging in again." :@"Hey there!"];
     }
     
     return self;
 }
+
+// Alert Status
+//
+//
+//
 
 - (void) alertStatus:(NSString *)message :(NSString *)title
 {
@@ -104,6 +121,22 @@
     
     [alertView show];
 }
+
+// Error Message
+//
+// Display an error message from an NSError.
+//
+
+- (void) errorMessage:(NSError*)error
+{
+    NSString *message = (error) ? [[NSString alloc] initWithFormat:@"%@", error.localizedDescription] : [[NSString alloc] initWithFormat:@"Sorry, something has gone wrong."];
+    [self alertStatus:message :@"Hey there!"];
+}
+
+// Reset last capture
+//
+//
+//
 
 - (void) resetLastCapture:(id)s
 {
