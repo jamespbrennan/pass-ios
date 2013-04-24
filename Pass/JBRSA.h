@@ -12,6 +12,8 @@
 #include <openssl/pem.h>
 #include <openssl/sha.h>
 #include <openssl/evp.h>
+#include <openssl/err.h>
+#include <openssl/ssl.h>
 
 @interface JBRSA : NSObject
 @property (unsafe_unretained, nonatomic) RSA *rsa;
