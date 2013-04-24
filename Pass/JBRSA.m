@@ -17,7 +17,7 @@
         [self setupOpenSSL];
         
         NSLog(@"Start RSA gen");
-        self.rsa = RSA_generate_key(1024, 65537, NULL, NULL);
+        self.rsa = RSA_generate_key(2048, 65537, NULL, NULL);
         NSLog(@"End RSA gen");
         
         if(self.rsa == NULL)
@@ -130,41 +130,94 @@
 - (NSString *)signature:(NSString*)token
 {
     NSString *signature;
-    char *plaintext = (char *)[token UTF8String];
-    EVP_PKEY *evp_key = EVP_PKEY_new();
-    EVP_MD_CTX ctx;
-    unsigned char * sig_buf;
-    unsigned int sig_len;
+//    char *plaintext = (char *)[token UTF8String];
+//    EVP_PKEY *evp_key = EVP_PKEY_new();
+//    EVP_MD_CTX ctx;
+//    unsigned char * sig_buf;
+//    unsigned int sig_len;
+//    
+//    if ( ! EVP_PKEY_assign_RSA(evp_key, self.rsa))
+//    {
+//        [self handleOpenSSLError:@"EVP_PKEY_assign_RSA error"];
+//    }
+//
+//    EVP_MD_CTX_init(&ctx);
+//    
+//    sig_buf = malloc(EVP_PKEY_size(evp_key));
+//    
+//    if ( EVP_DigestSignInit(&ctx, EVP_sha512()) != 1 )
+//    {
+//        [self handleOpenSSLError:@"EVP_SignInit error"];
+//    }
+//    
+//    if ( EVP_DigestSignUpdate (&ctx, plaintext, strlen(plaintext)) != 1 )
+//    {
+//        [self handleOpenSSLError:@"EVP_SignUpdate error"];
+//    }
+//    
+//    if ( EVP_DigestSignFinal (&ctx, sig_buf, &sig_len, evp_key) != 1) {
+//        [self handleOpenSSLError:@"EVP_SignFinal error"];
+//    }
+//
+//    signature = [NSString stringWithFormat:@"%s", sig_buf];
+//    
+//    free(sig_buf);
+//    EVP_PKEY_free (evp_key);
+//    EVP_MD_CTX_cleanup(&ctx);
+//
+//    return signature;
+    EVP_PKEY_CTX *ctx;
+    const unsigned char *md = (const unsigned char *)[token UTF8String];
+    unsigned char *sig;
+    size_t mdlen = strlen((const char *)md);
+    size_t siglen;
+    EVP_PKEY *signing_key = EVP_PKEY_new();
+    ENGINE *e = ENGINE_get_default_RSA();
     
-    if ( ! EVP_PKEY_assign_RSA(evp_key, self.rsa))
+    if ( ! EVP_PKEY_assign_RSA(signing_key, self.rsa))
     {
         [self handleOpenSSLError:@"EVP_PKEY_assign_RSA error"];
     }
-    
-    EVP_MD_CTX_init(&ctx);
-    
-    sig_buf = malloc(EVP_PKEY_size(evp_key));
-    
-    if ( EVP_SignInit(&ctx, EVP_sha512()) != 1 )
-    {
-        [self handleOpenSSLError:@"EVP_SignInit error"];
-    }
-    
-    if ( EVP_SignUpdate (&ctx, plaintext, strlen(plaintext)) != 1 )
-    {
-        [self handleOpenSSLError:@"EVP_SignUpdate error"];
-    }
-    
-    if ( EVP_SignFinal (&ctx, sig_buf, &sig_len, evp_key) != 1) {
-        [self handleOpenSSLError:@"EVP_SignFinal error"];
-    }
 
-    signature = [NSString stringWithFormat:@"%s", sig_buf];
+    ctx = EVP_PKEY_CTX_new(signing_key, e);
+    if (!ctx)
+    {
+        [self handleOpenSSLError:@"PEM_read_bio_RSAPrivateKey error"];
+    }
+    /* Error occurred */
+    if (EVP_PKEY_sign_init(ctx) <= 0)
+    {
+        [self handleOpenSSLError:@"EVP_PKEY_sign_init error"];
+    }
     
-    free(sig_buf);
-    EVP_PKEY_free (evp_key);
-    EVP_MD_CTX_cleanup(&ctx);
+    if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_X931_PADDING) <= 0)
+    {
+        [self handleOpenSSLError:@"EVP_PKEY_CTX_set_rsa_padding error"];
+    }
+    if (EVP_PKEY_CTX_set_signature_md(ctx, EVP_sha256()) <= 0)
+    {
+        [self handleOpenSSLError:@"EVP_PKEY_CTX_set_signature_md error"];
+    }
+    if (EVP_PKEY_sign(ctx, NULL, &siglen, md, mdlen) <= 0)
+    {
+        [self handleOpenSSLError:@"EVP_PKEY_sign NULL error"];
+    }
+    sig = OPENSSL_malloc(siglen);
     
+    if (!sig)
+    {
+        [self handleOpenSSLError:@"sig error"];
+    }
+    if (EVP_PKEY_sign(ctx, sig, &siglen, md, mdlen) <= 0)
+    {
+        [self handleOpenSSLError:@"EVP_PKEY_sign error"];
+    }
+    
+    signature = [NSString stringWithFormat:@"%s", sig];
+    
+//    free(sig);
+    EVP_cleanup();
+
     return signature;
 }
 
@@ -255,6 +308,7 @@
 }
 
 - (void) handleOpenSSLError:(NSString *)message {
+    NSLog(@"%@", message);
     ERR_print_errors_fp(stderr);
     
     unsigned long err = 0;
