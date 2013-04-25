@@ -12,6 +12,7 @@
 #import "ScanViewController.h"
 #import "NavigationViewController.h"
 #import "Pass.h"
+#import "PANaCL.h"
 
 @class LoginViewController;
 @class ScanViewController;

@@ -144,7 +144,7 @@ static NSString * const apiVersion = @"v1";
     NSError *error = [[NSError alloc] init];
     
     // Prepare parameters
-    JBRSA *rsa = [[JBRSA alloc] init];
+    PANaCL *rsa = [[PANaCL alloc] init];
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     [params setObject:rsa.publicKey forKey:@"public_key"];
     [params setObject:[[NSString alloc] initWithFormat:@"%d", serviceId] forKey:@"service_id"];
@@ -176,11 +176,11 @@ static NSString * const apiVersion = @"v1";
 {
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] init];
     
-    JBRSA *rsa = [[JBRSA alloc] initWithPrivateKey:[self getServicePrivateKey:serviceId]];
+    PANaCL *rsa = [[PANaCL alloc] initWithPrivateKey:[self getServicePrivateKey:serviceId]];
     
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     [params setObject:[[NSString alloc] initWithFormat:@"%d", sessionId] forKey:@"id"];
-    [params setObject:[rsa base64EncodeSignature:token] forKey:@"token"];
+    [params setObject:[rsa signature:token] forKey:@"token"];
     
     NSLog(@"sig: %@", [params objectForKey:@"token"]);
     
