@@ -33,9 +33,6 @@
         
         self.publicKey = [self encodeHex:[NSData dataWithBytes:pk length:pkLength]];
         self.privateKey = [self encodeHex:[NSData dataWithBytes:sk length:skLength]];
-
-        NSLog(@"pk %@", self.publicKey);
-        NSLog(@"sk %@", self.privateKey);
     }
     
     return self;

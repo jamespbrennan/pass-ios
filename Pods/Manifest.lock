@@ -1,5 +1,4 @@
 PODS:
-  - Base64 (1.0.1)
   - FMDB (2.0):
     - FMDB/standard
   - FMDB/common (2.0)
@@ -11,21 +10,19 @@ PODS:
   - ZXingObjC (2.1.0)
 
 DEPENDENCIES:
-  - Base64 (~> 1.0.1)
   - FMDB (~> 2.0)
-  - libsodium (from `https://raw.github.com/jamespbrennan/Specs/patch-1/libsodium/0.3/libsodium.podspec`)
+  - libsodium (from `https://raw.github.com/kballenegger/Specs/fix-libsodium/libsodium/0.3/libsodium.podspec`)
   - SBJson (~> 3.2)
   - ViewDeck (~> 2.2.4)
   - ZXingObjC (~> 2.1.0)
 
 EXTERNAL SOURCES:
   libsodium:
-    :podspec: https://raw.github.com/jamespbrennan/Specs/patch-1/libsodium/0.3/libsodium.podspec
+    :podspec: https://raw.github.com/kballenegger/Specs/fix-libsodium/libsodium/0.3/libsodium.podspec
 
 SPEC CHECKSUMS:
-  Base64: eaac9f2088ba659c5db1db960576eb0f2969ebaf
   FMDB: 30a7cbcdbd354f5ee1ba081a8773fd9130c43b48
-  libsodium: 14ced193e1eb6dff6a320c3f80f6ec4d993899c2
+  libsodium: e8f5e858293baf96ff1fc317856cbf79cb71a33e
   SBJson: 4971016670e7b3fa04a36d4e72ab0fb1ad3a9f69
   ViewDeck: 88a19cc246ece99d1aa9a883008e26c0d9068b5d
   ZXingObjC: 218a8a9a705ca914872f261d41f7db2822a11da2

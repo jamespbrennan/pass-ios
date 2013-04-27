@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#include "sodium.h"
-#import "MF_Base64Additions.h"
+#import "crypto_sign.h"
 
 @interface PANaCL : NSObject
 @property (unsafe_unretained, nonatomic) NSString *privateKey;
