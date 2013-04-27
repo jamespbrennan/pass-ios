@@ -89,7 +89,7 @@
             NSLog(@"Registering...");
             
             // Register first, then authenticate
-            if( ! [pass registerWithService:serviceId] )
+            if( ! [pass registerWithService:serviceId error:&error] )
             {
                 [self errorMessage:error];
                 return self;

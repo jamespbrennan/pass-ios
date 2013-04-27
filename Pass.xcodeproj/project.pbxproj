@@ -10,7 +10,7 @@
 		5608193A171F70520099B984 /* PassError.m in Sources */ = {isa = PBXBuildFile; fileRef = 56081939171F70520099B984 /* PassError.m */; };
 		5608C4F11710E88C004474DD /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5608C4F01710E88C004474DD /* libcrypto.a */; };
 		5608C4F31710E896004474DD /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5608C4F21710E896004474DD /* libssl.a */; };
-		5608C4F91710E965004474DD /* JBRSA.m in Sources */ = {isa = PBXBuildFile; fileRef = 5608C4F81710E965004474DD /* JBRSA.m */; };
+		5608C4F91710E965004474DD /* PANaCL.m in Sources */ = {isa = PBXBuildFile; fileRef = 5608C4F81710E965004474DD /* PANaCL.m */; };
 		56251B121713E2FF00E66476 /* show_lines.png in Resources */ = {isa = PBXBuildFile; fileRef = 56251B111713E2FF00E66476 /* show_lines.png */; };
 		563CB8AE170D0095002CA54D /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 563CB8AD170D0095002CA54D /* KeychainItemWrapper.m */; };
 		563CB8AF170D1890002CA54D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563CB8AA170CFBF1002CA54D /* Security.framework */; };
@@ -60,8 +60,8 @@
 		56081939171F70520099B984 /* PassError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassError.m; sourceTree = "<group>"; };
 		5608C4F01710E88C004474DD /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
 		5608C4F21710E896004474DD /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = lib/libssl.a; sourceTree = "<group>"; };
-		5608C4F71710E965004474DD /* JBRSA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBRSA.h; sourceTree = "<group>"; };
-		5608C4F81710E965004474DD /* JBRSA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBRSA.m; sourceTree = "<group>"; };
+		5608C4F71710E965004474DD /* PANaCL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PANaCL.h; sourceTree = "<group>"; };
+		5608C4F81710E965004474DD /* PANaCL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PANaCL.m; sourceTree = "<group>"; };
 		56251B111713E2FF00E66476 /* show_lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = show_lines.png; sourceTree = "<group>"; };
 		563CB8AA170CFBF1002CA54D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		563CB8AC170D0095002CA54D /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
@@ -197,8 +197,8 @@
 				56F91D491703F747000DC646 /* LoginViewController.h */,
 				56F91D4A1703F747000DC646 /* LoginViewController.m */,
 				56F91D4B1703F747000DC646 /* LoginViewController_iPhone.xib */,
-				5608C4F71710E965004474DD /* JBRSA.h */,
-				5608C4F81710E965004474DD /* JBRSA.m */,
+				5608C4F71710E965004474DD /* PANaCL.h */,
+				5608C4F81710E965004474DD /* PANaCL.m */,
 				56EBA3DA1718FAC2006758B3 /* Pass.h */,
 				56EBA3DB1718FAC2006758B3 /* Pass.m */,
 				56081938171F70520099B984 /* PassError.h */,
@@ -375,7 +375,7 @@
 				563CB8AE170D0095002CA54D /* KeychainItemWrapper.m in Sources */,
 				563CB8B3170D1D83002CA54D /* ScanViewController.m in Sources */,
 				563CB8B8170D1DFC002CA54D /* NavigationViewController.m in Sources */,
-				5608C4F91710E965004474DD /* JBRSA.m in Sources */,
+				5608C4F91710E965004474DD /* PANaCL.m in Sources */,
 				56EBA3DC1718FAC3006758B3 /* Pass.m in Sources */,
 				5608193A171F70520099B984 /* PassError.m in Sources */,
 			);

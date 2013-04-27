@@ -138,31 +138,57 @@ static NSString * const apiVersion = @"v1";
 // Register the device to a service. Creates a RSA keypair for the specific service and stores it in the keychain.
 //
 
--(bool)registerWithService:(int)serviceId
+-(bool)registerWithService:(int)serviceId error:(NSError**)error
 {
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] init];
-    NSError *error = [[NSError alloc] init];
     
     // Prepare parameters
-    JBRSA *rsa = [[JBRSA alloc] init];
+    PANaCL *nacl = [[PANaCL alloc] init];
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-    [params setObject:rsa.publicKey forKey:@"public_key"];
+    [params setObject:nacl.publicKey forKey:@"public_key"];
     [params setObject:[[NSString alloc] initWithFormat:@"%d", serviceId] forKey:@"service_id"];
     
-    NSDictionary *responseData = [self post:params endpoint:@"/devices/register" withToken:YES response:&response error:&error];
+    NSDictionary *responseData = [self post:params endpoint:@"/devices/register" withToken:YES response:&response error:error];
     
-    if(response.statusCode != 200)
+    // NSURLRequest error
+    if([response statusCode] == 0)
     {
-        if(error) NSLog(@"Register error: %@", error);
-        
-        NSDictionary *responseDataError = [responseData objectForKey:@"error"];
-        NSLog(@"Register error: %@ Status code: %d", [responseDataError objectForKey:@"message"], response.statusCode);
+        // HTTP 401 (bad device api token)
+        if ( [*error code] == -1012 )
+        {
+            *error = [self createErrorWithMessage:PAFailedAuthenticationMessage parameter:@"token" errorCode:PAFailedAuthentication devErrorMessage:@"Invalid Device API Token."];
+        }
+        else
+        {
+            NSLog(@"Login error: %@ %@", *error, [*error userInfo]);
+            
+            *error = [self createErrorWithMessage:PAServerErrorMessage parameter:@"token" errorCode:PAServerError devErrorMessage:@"Authenticate: communication error."];
+        }
         
         return NO;
     }
     
+    // HTTP 500 Server error
+    if([response statusCode] == 500)
+    {
+        *error = [self createErrorWithMessage:PAServerErrorMessage parameter:@"token" errorCode:PAServerError devErrorMessage:@"Authenticate: 500 server error."];
+        return NO;
+    }
+    
+    // Something else
+    if([response statusCode] != 200)
+    {
+        NSDictionary *responseDataError = [responseData objectForKey:@"error"];
+        NSString *message = [[NSString alloc] initWithFormat:@"Authenticate error: %@ Status code: %d", [responseDataError objectForKey:@"message"], response.statusCode];
+        NSLog(@"%@", message);
+        
+        *error = [self createErrorWithMessage:PAServerErrorMessage parameter:@"token" errorCode:PAServerError devErrorMessage:message];
+        
+        return NO;
+    } 
+    
     // Store the private key in the keychain
-    [self setServicePrivateKey:serviceId privateKey:rsa.privateKey];
+    [self setServicePrivateKey:serviceId privateKey:nacl.privateKey];
     
     return YES;
 }
@@ -176,15 +202,15 @@ static NSString * const apiVersion = @"v1";
 {
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] init];
     
-    JBRSA *rsa = [[JBRSA alloc] initWithPrivateKey:[self getServicePrivateKey:serviceId]];
+    PANaCL *rsa = [[PANaCL alloc] initWithPrivateKey:[self getServicePrivateKey:serviceId]];
     
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     [params setObject:[[NSString alloc] initWithFormat:@"%d", sessionId] forKey:@"id"];
-    [params setObject:[rsa base64EncodeSignature:token] forKey:@"token"];
+    [params setObject:[rsa signature:token] forKey:@"token"];
     
     NSLog(@"sig: %@", [params objectForKey:@"token"]);
     
-    NSDictionary *responseData = [self post:params endpoint:@"/sessions/authenticate" withToken:NO response:&response error:error];
+    NSDictionary *responseData = [self post:params endpoint:@"/sessions/authenticate" withToken:YES response:&response error:error];
     
     // NSURLRequest error
     if([response statusCode] == 0)

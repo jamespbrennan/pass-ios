@@ -1,0 +1,1 @@
+../../../../libsodium/src/libsodium/crypto_sign/ed25519/ref/sc25519.h
