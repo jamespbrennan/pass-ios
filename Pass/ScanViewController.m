@@ -18,11 +18,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
-    if (self)
-    {
-        [self performSelector:@selector(resetLastCapture:) withObject:self afterDelay:30.0];
-    }
-    
     return self;
 }
 
@@ -59,7 +54,11 @@
 
 - (void)captureResult:(ZXCapture*)capture result:(ZXResult*)result {
     if (result && ! [result.text isEqualToString:self.lastCapture]) {
+        // Store the result so we don't continually run the same QR again and again
         self.lastCapture = result.text;
+        // Clear the result out in 10s
+        [self performSelector:@selector(resetLastCapture:) withObject:self afterDelay:10.0];
+        
         [self processResult:result];
     }
 }

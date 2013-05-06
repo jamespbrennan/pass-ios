@@ -12,18 +12,20 @@
 #import "FMDatabase.h"
 #import "KeychainItemWrapper.h"
 #import "SBJson.h"
-#import "PANaCL.h"
+#import "PACrypto.h"
 
 @interface Pass : NSObject
 @property(nonatomic,strong) FMDatabase *db;
 
 + (Pass *)sharedInstance;
 - (bool)registerUser:(NSString*)email password:(NSString*)password error:(NSError**)error;
+- (bool)deleteUser:(NSString*)email password:(NSString*)password error:(NSError**)error;
 - (bool)login:(NSString*)email password:(NSString*)password error:(NSError**)error;
 - (bool)registerWithService:(int)serviceId error:(NSError**)error;
 - (bool)authenticate:(NSString *)token sessionId:(int)sessionId serviceId:(int)serviceId error:(NSError**)error;
 - (NSDictionary *)post:(NSDictionary*)params endpoint:(NSString *)endpoint withToken:(bool)withToken response:(NSHTTPURLResponse**)response error:(NSError**)error;
-- (void)setDeviceAPIToken:(NSString*)token;
+- (NSDictionary *)delete:(NSDictionary*)params endpoint:(NSString *)endpoint withToken:(bool)withToken response:(NSHTTPURLResponse**)response error:(NSError**)error;
+- (void)setAPIToken:(NSString*)token;
 - (NSString *)getAPIToken;
 - (bool)setServicePrivateKey:(int)serviceId privateKey:(NSString*)privateKey;
 - (NSString *)getServicePrivateKey:(int)serviceId;

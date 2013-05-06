@@ -20,3 +20,4 @@ NSString * const PAInvalidEmail = @"net.passauth.pass:InvalidEmail";
 NSString * const PAInvalidPassword = @"net.passauth.pass:InvalidEmail";
 NSString * const PAFailedAuthentication = @"net.passauth.pass:FailedAuthentication";
 NSString * const PAServerError = @"net.passauth.pass:ServerError";
+NSString * const PADuplicateEmailError = @"net.passauth.pass:DuplicateEmailError";

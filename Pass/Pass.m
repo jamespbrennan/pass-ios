@@ -65,6 +65,57 @@ static NSString * const apiVersion = @"v1";
         else
             NSLog(@"Register user error but no error message returned from server.");
         
+        if([[jsonError objectForKey:@"message"] isKindOfClass:[NSString class]] && [[jsonError objectForKey:@"message"] isEqualToString:@"Email has already been taken"])
+        {
+            *error = [self createErrorWithMessage:PADuplicateEmailErrorMessage parameter:@"email" errorCode:PADuplicateEmailError devErrorMessage:@"That email has already been registered to an account"];
+        }
+        
+        return NO;
+    }
+}
+
+// Delete user
+//
+// Delete a user account
+//
+
+-(bool)deleteUser:(NSString*)email password:(NSString*)password error:(NSError**)error
+{
+    // Validate request
+    if( ! [self validateEmail:&email error:error])
+    {
+        return NO;
+    }
+    
+    if( ! [self validatePassword:&password error:error])
+    {
+        return NO;
+    }
+    
+    // Prepare request
+    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] init];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    [params setObject:email forKey:@"email"];
+    [params setObject:password forKey:@"password"];
+    
+    NSDictionary *json = [self delete:params endpoint:@"/users" withToken:NO response:&response error:error];
+    
+    if(response.statusCode == 200)
+    {
+        return YES;
+    }
+    else
+    {
+        if(error) NSLog(@"Register user error: %@", *error);
+        
+        // Get error message from server
+        NSDictionary *jsonError = [json objectForKey:@"error"];
+        
+        if([jsonError objectForKey:@"message"])
+            NSLog(@"Register user error: %@", [jsonError objectForKey:@"message"]);
+        else
+            NSLog(@"Register user error but no error message returned from server.");
+        
         return NO;
     }
 }
@@ -106,7 +157,7 @@ static NSString * const apiVersion = @"v1";
         }
         else
         {
-            [self setDeviceAPIToken:token];
+            [self setAPIToken:token];
             return YES;
         }
     }
@@ -143,7 +194,7 @@ static NSString * const apiVersion = @"v1";
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] init];
     
     // Prepare parameters
-    PANaCL *nacl = [[PANaCL alloc] init];
+    PACrypto *nacl = [[PACrypto alloc] init];
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     [params setObject:nacl.publicKey forKey:@"public_key"];
     [params setObject:[[NSString alloc] initWithFormat:@"%d", serviceId] forKey:@"service_id"];
@@ -202,7 +253,7 @@ static NSString * const apiVersion = @"v1";
 {
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] init];
     
-    PANaCL *rsa = [[PANaCL alloc] initWithPrivateKey:[self getServicePrivateKey:serviceId]];
+    PACrypto *rsa = [[PACrypto alloc] initWithPrivateKey:[self getServicePrivateKey:serviceId]];
     
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     [params setObject:[[NSString alloc] initWithFormat:@"%d", sessionId] forKey:@"id"];
@@ -299,12 +350,59 @@ static NSString * const apiVersion = @"v1";
     return (NSDictionary *) [jsonParser objectWithString:[[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding]];
 }
 
+// Delete
+//
+// Execute a delete request to the server.
+//
+
+-(NSDictionary *)delete:(NSDictionary*)params endpoint:(NSString *)endpoint withToken:(bool)withToken response:(NSHTTPURLResponse**)response error:(NSError**)error
+{
+    SBJsonParser *jsonParser = [SBJsonParser new];
+    NSData *responseData = [[NSData alloc] init];
+    
+    // Setup post
+    NSMutableString *post = [NSMutableString string];
+    
+    for (NSString* key in params){
+        NSString *value = [params objectForKey:key];
+        if ((id)value == [NSNull null]) continue;
+        
+        if ([post length] != 0)
+            [post appendString:@"&"];
+        
+        if ([value isKindOfClass:[NSString class]])
+            value = [self URLEncodedString:value];
+        
+        [post appendFormat:@"%@=%@", key, value];
+    }
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString: [[NSString alloc] initWithFormat:@"%@%@", apiURLBase, endpoint]]];
+    [request setHTTPMethod:@"DELETE"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+    
+    if(withToken)
+    {
+        [request setValue:[[NSString alloc] initWithFormat:@"Token %@", [self getAPIToken]] forHTTPHeaderField:@"Authorization"];
+    }
+    
+    responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:response error:error];
+    
+    return (NSDictionary *) [jsonParser objectWithString:[[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding]];
+}
+
 // Set API Token
 //
 // Store the device API token in the keychain
 //
 
--(void)setDeviceAPIToken:(NSString*)token
+-(void)setAPIToken:(NSString*)token
 {
     KeychainItemWrapper *keychain = [[KeychainItemWrapper alloc] initWithIdentifier:@"Token" accessGroup:nil];
     [keychain setObject:@"DeviceAPIToken" forKey:(__bridge id)(kSecAttrAccount)];
