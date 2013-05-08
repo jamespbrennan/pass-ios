@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		5608193A171F70520099B984 /* PassError.m in Sources */ = {isa = PBXBuildFile; fileRef = 56081939171F70520099B984 /* PassError.m */; };
 		5608C4F11710E88C004474DD /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5608C4F01710E88C004474DD /* libcrypto.a */; };
-		5608C4F31710E896004474DD /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5608C4F21710E896004474DD /* libssl.a */; };
 		5608C4F91710E965004474DD /* PACrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 5608C4F81710E965004474DD /* PACrypto.m */; };
 		56251B121713E2FF00E66476 /* show_lines.png in Resources */ = {isa = PBXBuildFile; fileRef = 56251B111713E2FF00E66476 /* show_lines.png */; };
 		563CB8AE170D0095002CA54D /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 563CB8AD170D0095002CA54D /* KeychainItemWrapper.m */; };
@@ -114,7 +113,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				56EBA3D91718DFE4006758B3 /* libsqlite3.dylib in Frameworks */,
-				5608C4F31710E896004474DD /* libssl.a in Frameworks */,
 				5608C4F11710E88C004474DD /* libcrypto.a in Frameworks */,
 				563CB8C5170D25D8002CA54D /* QuartzCore.framework in Frameworks */,
 				563CB8C3170D25D1002CA54D /* ImageIO.framework in Frameworks */,

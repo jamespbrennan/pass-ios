@@ -25,7 +25,15 @@
 {
     [super viewDidLoad];
     self.navigationItem.title = @"Pass";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Left" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)];
+    
+    UIImage *showLines = [UIImage imageNamed:@"show_lines.png"];
+//    UIButton *show = [UIButton buttonWithType:UIButtonTypeCustom];
+//    show.bounds = CGRectMake( 0, 0, showLines.size.width, showLines.size.height );
+//    [show setImage:showLines forState:UIControlStateNormal];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:showLines style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)];
+    
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Left" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)];
 }
 
 - (void)didReceiveMemoryWarning
