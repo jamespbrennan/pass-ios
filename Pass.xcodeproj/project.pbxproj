@@ -10,7 +10,7 @@
 		5608193A171F70520099B984 /* PassError.m in Sources */ = {isa = PBXBuildFile; fileRef = 56081939171F70520099B984 /* PassError.m */; };
 		5608C4F11710E88C004474DD /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5608C4F01710E88C004474DD /* libcrypto.a */; };
 		5608C4F31710E896004474DD /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5608C4F21710E896004474DD /* libssl.a */; };
-		5608C4F91710E965004474DD /* PANaCL.m in Sources */ = {isa = PBXBuildFile; fileRef = 5608C4F81710E965004474DD /* PANaCL.m */; };
+		5608C4F91710E965004474DD /* PACrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 5608C4F81710E965004474DD /* PACrypto.m */; };
 		56251B121713E2FF00E66476 /* show_lines.png in Resources */ = {isa = PBXBuildFile; fileRef = 56251B111713E2FF00E66476 /* show_lines.png */; };
 		563CB8AE170D0095002CA54D /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 563CB8AD170D0095002CA54D /* KeychainItemWrapper.m */; };
 		563CB8AF170D1890002CA54D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563CB8AA170CFBF1002CA54D /* Security.framework */; };
@@ -23,6 +23,7 @@
 		563CB8C1170D25CC002CA54D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563CB8C0170D25CC002CA54D /* CoreVideo.framework */; };
 		563CB8C3170D25D1002CA54D /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563CB8C2170D25D1002CA54D /* ImageIO.framework */; };
 		563CB8C5170D25D8002CA54D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563CB8C4170D25D8002CA54D /* QuartzCore.framework */; };
+		567DE8A017385E3E00416B3F /* PACryptoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 567DE89F17385E3E00416B3F /* PACryptoTests.m */; };
 		56C2DA471703AF0E00400D6D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56C2DA461703AF0E00400D6D /* UIKit.framework */; };
 		56C2DA491703AF0E00400D6D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56C2DA481703AF0E00400D6D /* Foundation.framework */; };
 		56C2DA4B1703AF0E00400D6D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56C2DA4A1703AF0E00400D6D /* CoreGraphics.framework */; };
@@ -60,8 +61,8 @@
 		56081939171F70520099B984 /* PassError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassError.m; sourceTree = "<group>"; };
 		5608C4F01710E88C004474DD /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
 		5608C4F21710E896004474DD /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = lib/libssl.a; sourceTree = "<group>"; };
-		5608C4F71710E965004474DD /* PANaCL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PANaCL.h; sourceTree = "<group>"; };
-		5608C4F81710E965004474DD /* PANaCL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PANaCL.m; sourceTree = "<group>"; };
+		5608C4F71710E965004474DD /* PACrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PACrypto.h; sourceTree = "<group>"; };
+		5608C4F81710E965004474DD /* PACrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PACrypto.m; sourceTree = "<group>"; };
 		56251B111713E2FF00E66476 /* show_lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = show_lines.png; sourceTree = "<group>"; };
 		563CB8AA170CFBF1002CA54D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		563CB8AC170D0095002CA54D /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
@@ -77,6 +78,8 @@
 		563CB8C0170D25CC002CA54D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		563CB8C2170D25D1002CA54D /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		563CB8C4170D25D8002CA54D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		567DE89E17385E3E00416B3F /* PACryptoTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PACryptoTests.h; sourceTree = "<group>"; };
+		567DE89F17385E3E00416B3F /* PACryptoTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PACryptoTests.m; sourceTree = "<group>"; };
 		56C2DA431703AF0E00400D6D /* Pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56C2DA461703AF0E00400D6D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		56C2DA481703AF0E00400D6D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -197,8 +200,8 @@
 				56F91D491703F747000DC646 /* LoginViewController.h */,
 				56F91D4A1703F747000DC646 /* LoginViewController.m */,
 				56F91D4B1703F747000DC646 /* LoginViewController_iPhone.xib */,
-				5608C4F71710E965004474DD /* PANaCL.h */,
-				5608C4F81710E965004474DD /* PANaCL.m */,
+				5608C4F71710E965004474DD /* PACrypto.h */,
+				5608C4F81710E965004474DD /* PACrypto.m */,
 				56EBA3DA1718FAC2006758B3 /* Pass.h */,
 				56EBA3DB1718FAC2006758B3 /* Pass.m */,
 				56081938171F70520099B984 /* PassError.h */,
@@ -228,6 +231,8 @@
 				56C2DA701703AF0E00400D6D /* PassTests.h */,
 				56C2DA711703AF0E00400D6D /* PassTests.m */,
 				56C2DA6B1703AF0E00400D6D /* Supporting Files */,
+				567DE89E17385E3E00416B3F /* PACryptoTests.h */,
+				567DE89F17385E3E00416B3F /* PACryptoTests.m */,
 			);
 			path = PassTests;
 			sourceTree = "<group>";
@@ -375,7 +380,7 @@
 				563CB8AE170D0095002CA54D /* KeychainItemWrapper.m in Sources */,
 				563CB8B3170D1D83002CA54D /* ScanViewController.m in Sources */,
 				563CB8B8170D1DFC002CA54D /* NavigationViewController.m in Sources */,
-				5608C4F91710E965004474DD /* PANaCL.m in Sources */,
+				5608C4F91710E965004474DD /* PACrypto.m in Sources */,
 				56EBA3DC1718FAC3006758B3 /* Pass.m in Sources */,
 				5608193A171F70520099B984 /* PassError.m in Sources */,
 			);
@@ -386,6 +391,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				56C2DA721703AF0E00400D6D /* PassTests.m in Sources */,
+				567DE8A017385E3E00416B3F /* PACryptoTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,6 +563,7 @@
 		};
 		56C2DA791703AF0E00400D6D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F8ED5807EDC4BA9B634C809 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Pass.app/Pass";
 				FRAMEWORK_SEARCH_PATHS = (

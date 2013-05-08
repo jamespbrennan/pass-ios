@@ -12,7 +12,6 @@
 #import "ScanViewController.h"
 #import "NavigationViewController.h"
 #import "Pass.h"
-#import "PACrypto.h"
 
 @class LoginViewController;
 @class ScanViewController;
@@ -30,5 +29,6 @@
 @property (strong, nonatomic) IIViewDeckController *deckController;
 
 - (void)loggedIn;
+- (void)logOut;
 
 @end

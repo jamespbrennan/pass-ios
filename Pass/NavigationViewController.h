@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
 @interface NavigationViewController : UITableViewController
+{
+NSMutableArray *_displayedObjects;
+}
 
+@property (nonatomic, retain) NSMutableArray *displayedObjects;
 @end

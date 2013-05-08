@@ -92,4 +92,15 @@
     self.window.rootViewController = self.deckController;
 }
 
+- (void)logOut
+{
+    NSLog(@"Logging out...");
+    
+    Pass *pass = [Pass sharedInstance];
+    [pass firstRunCleanUp];
+    [[NSUserDefaults standardUserDefaults] setValue:@"1strun" forKey:@"FirstRun"];
+    
+    self.window.rootViewController = self.loginViewController;
+}
+
 @end
