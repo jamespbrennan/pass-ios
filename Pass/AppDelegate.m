@@ -19,7 +19,6 @@
     
     // --- Clear keychain on first run in case of reinstallation
     if ( ! [[NSUserDefaults standardUserDefaults] objectForKey:@"FirstRun"]) {
-        NSLog(@"Cleaning up...");
         [pass firstRunCleanUp];
         
         [[NSUserDefaults standardUserDefaults] setValue:@"1strun" forKey:@"FirstRun"];
@@ -94,11 +93,10 @@
 
 - (void)logOut
 {
-    NSLog(@"Logging out...");
-    
     Pass *pass = [Pass sharedInstance];
     [pass firstRunCleanUp];
-    [[NSUserDefaults standardUserDefaults] setValue:@"1strun" forKey:@"FirstRun"];
+    
+    [pass initDb];
     
     self.window.rootViewController = self.loginViewController;
 }
