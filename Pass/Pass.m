@@ -55,7 +55,7 @@ static NSString * const apiVersion = @"v1";
     }
     else
     {
-        if(error) NSLog(@"Register user error: %@", *error);
+        // if(error) NSLog(@"Register user error: %@", *error);
         
         // Get error message from server
         NSDictionary *jsonError = [json objectForKey:@"error"];
@@ -64,8 +64,9 @@ static NSString * const apiVersion = @"v1";
             NSLog(@"Register user error: %@", [jsonError objectForKey:@"message"]);
         else
             NSLog(@"Register user error but no error message returned from server.");
-        
-        if([[jsonError objectForKey:@"message"] isKindOfClass:[NSString class]] && [[jsonError objectForKey:@"message"] isEqualToString:@"Email has already been taken"])
+
+        // Message will be an arry of one, so convert it to a string before checking its contents
+        if([[[jsonError objectForKey:@"message"] componentsJoinedByString:@""] isEqualToString:@"Email has already been taken"])
         {
             *error = [self createErrorWithMessage:PADuplicateEmailErrorMessage parameter:@"email" errorCode:PADuplicateEmailError devErrorMessage:@"That email has already been registered to an account"];
         }

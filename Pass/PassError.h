@@ -35,4 +35,4 @@ FOUNDATION_EXPORT NSString * const PADuplicateEmailError;
 #define PAInvalidPasswordMessage NSLocalizedString(@"Sorry, you must provide a password.", @"Error when no password is provided")
 #define PAFailedAuthenticationMessage NSLocalizedString(@"Sorry, I wasn't able to log you in. Please try logging in again.", @"Error when authenticaiton is unsuccessful")
 #define PAServerErrorMessage NSLocalizedString(@"Sorry, something went wrong on our end. If you continue to have problems please contact support@passauth.net.", @"Error when there is a server or communication error")
-#define PADuplicateEmailErrorMessage NSLocalizedString(@"Sorry, that email has already been take - you may already have an account.", @"That email has already been registered to an account")
+#define PADuplicateEmailErrorMessage NSLocalizedString(@"Sorry, that email has already been taken. You may already have an account so try logging in.", @"That email has already been registered to an account")
